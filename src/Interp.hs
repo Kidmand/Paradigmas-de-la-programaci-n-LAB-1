@@ -34,27 +34,38 @@ initial (Conf n dib intBas) size = display win white $ withGrid fig size
     grey = makeColorI 100 100 100 100 -- Es el color gris que usamos para la grilla.
 
 -- Interpretación de (^^^)
+-- ?? Basica (a -> b) ?? 
 ov :: Picture -> Picture -> Picture
 ov p q = undefined
 
+-- Rotar45 (b -> b)
 r45 :: FloatingPic -> FloatingPic
 r45 = undefined
 
+-- Rotar (b -> b)
 rot :: FloatingPic -> FloatingPic
 rot = undefined
 
+-- Espejar (b -> b)
 esp :: FloatingPic -> FloatingPic
 esp = undefined
 
-sup :: FloatingPic -> FloatingPic -> FloatingPic
-sup = undefined
-
-jun :: Float -> Float -> FloatingPic -> FloatingPic -> FloatingPic
-jun = undefined
-
+-- Apilar (Float -> Float -> b -> b -> b)
 api :: Float -> Float -> FloatingPic -> FloatingPic -> FloatingPic
 api = undefined
 
+-- Juntar  (Float -> Float -> b -> b -> b)
+jun :: Float -> Float -> FloatingPic -> FloatingPic -> FloatingPic
+jun = undefined
+
+-- Encimar (b -> b -> b) 
+sup :: FloatingPic -> FloatingPic -> FloatingPic
+sup = undefined       
+
+-- La función interp toma una función f que puede interpretar un valor de tipo a y 
+-- produce una representación visual FloatingPic. 
+-- Queremos modificar esta función f para que pueda interpretar valores del tipo Dibujo a, 
+-- es decir, cambiar la interpretación para que funcione con dibujos. 
 --                          ----- Vector -> Vector -> Vector -> Picture
 --                          |
 --                          |                            ---------------- Vector -> Vector -> Vector -> Picture
@@ -62,4 +73,12 @@ api = undefined
 --           |          -------------  Dibujo a -> FloatingPic 
 --           |          |
 interp :: Output a -> Output (Dibujo a)
-interp b = undefined
+interp f = foldDib 
+                      f 
+                      r45
+                      rot
+                      esp
+                      api 
+                      jun 
+                      sup
+                      -- Dibujo a evaluar currificado. 

@@ -14,13 +14,24 @@ import qualified Graphics.Gloss.Data.Point.Arithmetic as V
 -- las figuras básicas. Permitimos una computación para poder leer
 -- archivos, tomar argumentos, etc.
 initial :: Conf -> Float -> IO ()
+--            -------------> nombre
+--            |  ----------> dibujo                  ----> (withGrid fig size)
+--            |  |    -----> interpretación básica   | 
+--            |  |    |      -> Tamaño de la ventana |
+--            |  |    |      |                       |
 initial (Conf n dib intBas) size = display win white $ withGrid fig size
   where
-    win = InWindow n (ceiling size, ceiling size) (0, 0)
-    fig = interp intBas dib (0, 0) (size, 0) (0, size)
-    desp = -(size / 2)
-    withGrid p x = translate desp desp $ pictures [p, color grey $ grid (ceiling $ size / 10) (0, 0) x 10]
-    grey = makeColorI 100 100 100 100
+    win = InWindow n (ceiling size, ceiling size) (0, 0) -- Crea una ventana de tamaño size x size con nombre n.
+--                 ----> Vector -> Vector -> Vector -> Picture
+--                / ---> Dibujo a -> FloatingPic
+--               / /
+--         (----/-/------) 
+--        (----/--------------)    
+    fig = ((interp intBas) dib) (0, 0) (size, 0) (0, size)  -- Obtiene la figura interpretada a mostrar. DEVUELVE UNA PICTURE.
+
+    desp = -(size / 2) -- Calcula el desplazamiento para centrar la figura.
+    withGrid p x = translate desp desp $ pictures [p, color grey $ grid (ceiling $ size / 10) (0, 0) x 10] -- Combina nuestra figura con la grilla.
+    grey = makeColorI 100 100 100 100 -- Es el color gris que usamos para la grilla.
 
 -- Interpretación de (^^^)
 ov :: Picture -> Picture -> Picture
@@ -44,5 +55,11 @@ jun = undefined
 api :: Float -> Float -> FloatingPic -> FloatingPic -> FloatingPic
 api = undefined
 
+--                          ----- Vector -> Vector -> Vector -> Picture
+--                          |
+--                          |                            ---------------- Vector -> Vector -> Vector -> Picture
+--           ----  a -> FloatingPic                      |
+--           |          -------------  Dibujo a -> FloatingPic 
+--           |          |
 interp :: Output a -> Output (Dibujo a)
 interp b = undefined

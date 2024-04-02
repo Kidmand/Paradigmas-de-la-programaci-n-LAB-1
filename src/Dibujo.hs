@@ -40,6 +40,7 @@ infixr 7 .-. -- Pone el primer dibujo arriba del segundo, ambos ocupan el mismo 
 
 infixr 8 /// -- Pone un dibujo al lado del otro, ambos ocupan el mismo espacio.
 
+-- Compone una función n veces a un elemento.
 comp :: Int -> (a -> a) -> a -> a
 comp n f x
   | n < 0     = error "No se puede componer negativamente"
@@ -115,7 +116,6 @@ mapDib f (Espejar d) = Espejar (mapDib f d)
 -- 1. map figura = id
 -- 2. map (g . f) = mapDib g . mapDib f
 
--- FIXME: No se si esta bien.
 -- Cambiar todas las básicas de acuerdo a la función. 
 change :: (a -> Dibujo b) -> Dibujo a -> Dibujo b
 change f (Basica d) = f d

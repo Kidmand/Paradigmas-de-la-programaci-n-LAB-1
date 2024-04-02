@@ -40,7 +40,9 @@ ov p q = undefined
 
 -- Rotar45 (b -> b)
 f_r45 :: FloatingPic -- (Vector -> Vector -> Vector -> Picture)
-f_r45 d w h = (d V.+ (w V.+ h)/2, (w  V.+ h)/2, (h  V.- w)/2) 
+-- FIXME: elegir una linea, la que ande o ver otra forma de hacer esto. 
+f_r45 d w h = picture [ line [d V.+ (w V.+ h)/2], line [ (w  V.+ h)/2], line [(h  V.- w)/2]]
+f_r45 d w h = line [d V.+ (w V.+ h)/2,(w  V.+ h)/2,(h  V.- w)/2]
 
 r45 :: FloatingPic -> FloatingPic
 r45 = f_r45 

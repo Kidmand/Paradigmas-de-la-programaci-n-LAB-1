@@ -82,7 +82,7 @@ espejar d = Espejar d
 
 -- rotaciones
 r90 :: Dibujo a -> Dibujo a
-r90 d = comp 1 rotar d
+r90 d = comp 2 rot45 d
 
 r180 :: Dibujo a -> Dibujo a
 r180 d = comp 2 r90 d
@@ -92,7 +92,7 @@ r270 d = comp 3 r90 d
 
 -- una figura repetida con las cuatro rotaciones, superimpuestas.
 encimar4 :: Dibujo a -> Dibujo a
-encimar4 d = d ^^^ r90 d ^^^ r180 d ^^^ r270 d
+encimar4 d = (d) ^^^ (r90 d) ^^^ (r180 d) ^^^ (r270 d)
 
 -- cuatro figuras en un cuadrante.
 cuarteto :: Dibujo a -> Dibujo a -> Dibujo a -> Dibujo a -> Dibujo a
@@ -104,7 +104,7 @@ ciclar d = cuarteto d (r90 d) (r180 d) (r270 d)
 
 -- map para nuestro lenguaje
 mapDib :: (a -> b) -> Dibujo a -> Dibujo b
-mapDib f (Basica a) = Basica (f a)
+mapDib f (Basica d) = Basica (f d)
 mapDib f (Encimar d_1 d_2) = Encimar (mapDib f d_1) (mapDib f d_2)
 mapDib f (Apilar x y d_1 d_2) = Apilar x y (mapDib f d_1) (mapDib f d_2)
 mapDib f (Juntar x y d_1 d_2) = Juntar x y (mapDib f d_1) (mapDib f d_2)
@@ -115,9 +115,10 @@ mapDib f (Espejar d) = Espejar (mapDib f d)
 -- 1. map figura = id
 -- 2. map (g . f) = mapDib g . mapDib f
 
--- Cambiar todas las básicas de acuerdo a la función.
+-- FIXME: No se si esta bien.
+-- Cambiar todas las básicas de acuerdo a la función. 
 change :: (a -> Dibujo b) -> Dibujo a -> Dibujo b
-change f (Basica a) = f a
+change f (Basica d) = f d
 change f (Encimar d_1 d_2) = Encimar (change f d_1) (change f d_2)
 change f (Apilar x y d_1 d_2) = Apilar x y (change f d_1) (change f d_2)
 change f (Juntar x y d_1 d_2) = Juntar x y (change f d_1) (change f d_2)
@@ -138,7 +139,7 @@ foldDib ::
   Dibujo a                           -- Dibujo a evaluar.
   -> b                               -- Resultado.
 foldDib f1 _ _ _ _ _ _ (Basica d) = f1 d
-foldDib f1 f2 f3 f4 f5 f6 f7 (Rot45 d) = f2 (foldDib f1 f2 f3 f4 f5 f6 f7 d_1)
+foldDib f1 f2 f3 f4 f5 f6 f7 (Rot45 d) = f2 (foldDib f1 f2 f3 f4 f5 f6 f7 d)
 foldDib f1 f2 f3 f4 f5 f6 f7 (Rotar d) = f3 (foldDib f1 f2 f3 f4 f5 f6 f7 d)
 foldDib f1 f2 f3 f4 f5 f6 f7 (Espejar d) = f4 (foldDib f1 f2 f3 f4 f5 f6 f7 d)
 foldDib f1 f2 f3 f4 f5 f6 f7 (Apilar x y d_1 d_2) = f5 x y (foldDib f1 f2 f3 f4 f5 f6 f7 d_1) (foldDib f1 f2 f3 f4 f5 f6 f7 d_2)
@@ -147,7 +148,7 @@ foldDib f1 f2 f3 f4 f5 f6 f7 (Encimar d_1 d_2) = f7 (foldDib f1 f2 f3 f4 f5 f6 f
 
 -- Extrae todas las figuras básicas de un dibujo.
 figuras :: Dibujo a -> [a]
-figuras (Basica a) = [a]
+figuras (Basica d) = [d]
 figuras (Encimar d_1 d_2) = figuras d_1 ++ figuras d_2
 figuras (Apilar _ _ d_1 d_2) = figuras d_1 ++ figuras d_2
 figuras (Juntar _ _ d_1 d_2) = figuras d_1 ++ figuras d_2

@@ -39,8 +39,11 @@ ov :: Picture -> Picture -> Picture
 ov p q = undefined
 
 -- Rotar45 (b -> b)
+f_r45 :: FloatingPic -- (Vector -> Vector -> Vector -> Picture)
+f_r45 d w h = (d V.+ (w V.+ h)/2, (w  V.+ h)/2, (h  V.- w)/2) 
+
 r45 :: FloatingPic -> FloatingPic
-r45 = undefined
+r45 = f_r45 
 
 -- Rotar (b -> b)
 rot :: FloatingPic -> FloatingPic

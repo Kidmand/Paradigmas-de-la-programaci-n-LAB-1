@@ -52,12 +52,12 @@ main = do
   initial' configs $ head args
 
 
---FIXME: Los siguientes comandos, hace que funcione el main.
---ghc -package containers -package haha -package text -package lucid-svg -o mi_programa Main.hs
+-- NOTE: Los siguientes comandos, hace que funcione el main.
+-- ghc -package containers -package haha -package text -package lucid-svg -o mi_programa Main.hs
 -- ./mi_programa -l // Para ver los dibujos disponibles pj, me va a dar una lista de dibujos [Feo, ..., ..., etc]
 -- ./mi_programa Feo // ejecuta el archivo.
 
---FIXME: Otra compilacion que es la mejor, pero les puse las anteriores para que entiendan un poco que es lo
+-- NOTE: Otra compilacion que es la mejor, pero les puse las anteriores para que entiendan un poco que es lo
 --       que se está ejecutando, es la siguiente.
 --       Dentro de la carpeta (paradigmas-24-lab-1-g45) ejecuten esta linea. --| cabal run dibujos Feo |--
 
@@ -67,10 +67,10 @@ main = do
 --       lucid-svg ^>=0.7.1.1,
 --       text ^>=2.0.2
 
---FIXME: Otra cosa es que cabal, prácticamente es como Makefile pero para haskell, construyendo todas las
+-- NOTE: Otra cosa es que cabal, prácticamente es como Makefile pero para haskell, construyendo todas las
 --       dependecias entre haskell y las bibliotecas.
 
---FIXME: Para que esto anduviera, tuve que borrar: 
+-- NOTE: Para que esto anduviera, tuve que borrar: 
 --       --| import Dibujos.Ejemplo (ejemploConf) |-- /Main.hs line 3
 --       --| import Dibujos.Cuadrados(cuadConf) |-- /Main.hs line 5
 --       Del archivo dibujos.cabal, tuve que borrar:

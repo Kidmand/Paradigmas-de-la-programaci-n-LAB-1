@@ -104,4 +104,5 @@ orP :: Pred a -> Pred a -> Pred a
 orP p1 p2 = (orP' p1 p2) -- Currificación
 
 -- Falla siempre es True.
+falla :: Bool
 falla = True

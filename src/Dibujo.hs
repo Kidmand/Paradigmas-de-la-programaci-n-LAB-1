@@ -157,10 +157,3 @@ figuras (Rotar d) = figuras d
 figuras (Espejar d) = figuras d
 
 
-
-dibujoConf :: Conf
-dibujoConf = Conf {
-    name = "Feo"
-    , pic = testAll
-    , bas = interpBas
-}

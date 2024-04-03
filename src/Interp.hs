@@ -59,7 +59,10 @@ initial (Conf n dib intBas) size = display win white $ withGrid fig size
 -- Interpretación de (^^^)
 -----------------------------------------------------------------------------------------------------------------------
 ov :: Picture -> Picture -> Picture
-ov p q = undefined
+ov p q = pictures [p, q]
+
+--Esta funcion es la encargada de superponer dos dibujos, uno arriba de otro. 
+--Antes usabamos pictures [p,q] donde p y q son dos dibujos.
 -----------------------------------------------------------------------------------------------------------------------
 
 
@@ -104,7 +107,7 @@ sup f g d w h = pictures [(f d w h), (g d w h)]  -- ---> f(d, w, h) ∪ g(d, w, 
 -----------------------------------------------------------------------------------------------------------------------
 api :: Float -> Float -> FloatingPic -> FloatingPic -> FloatingPic
 --                            f (d + h'   , w ,   r*h   ) ∪ g(d, w, h') where r' = n/(m+n), r=m/(m+n), h'=r'*h
-api m n f g d w h = pictures [(f (d V.+ h')  w  (r V.* h)) , (g d w h')] -- ---> f(d + h', w, r*h) ∪ g(d, w, h')
+api m n f g d w h =   ((f (d V.+ h')  w  (r V.* h))) `ov` ((g d w h')) -- ---> f(d + h', w, r*h) ∪ g(d, w, h')
                    where r' = (n/(m+n))
                          r  = (m/(m+n))
                          h' = (r' V.* h)
@@ -120,7 +123,7 @@ jun :: Float -> Float -> FloatingPic -> FloatingPic -> FloatingPic
 --                              |
 --                              |            
 --                            f(x, w', h) ∪ g (   d+w'  ,    r'*w  , h) where r'=n/(m+n), r=m/(m+n), w'=r*w
-jun m n f g d w h = pictures [(f d w' h) , (g (d V.+ w') (r' V.* w) h)] -- ---> f(x, w', h) ∪ g(d+w', r'*w, h) 
+jun m n f g d w h =  (f d w' h) `ov` (g (d V.+ w') (r' V.* w) h) -- ---> f(x, w', h) ∪ g(d+w', r'*w, h) 
                     where r  = (m/(m+n))
                           r' = (n/(m+n))
                           w' = (r V.* w)

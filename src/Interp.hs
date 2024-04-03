@@ -39,13 +39,12 @@ ov :: Picture -> Picture -> Picture
 ov p q = undefined
 
 -- Rotar45 (b -> b)
-f_r45 :: FloatingPic -- (Vector -> Vector -> Vector -> Picture)
--- FIXME: elegir una linea, la que ande o ver otra forma de hacer esto. 
-f_r45 d w h = picture [ line [d V.+ (w V.+ h)/2], line [ (w  V.+ h)/2], line [(h  V.- w)/2]]
-f_r45 d w h = line [d V.+ (w V.+ h)/2,(w  V.+ h)/2,(h  V.- w)/2]
-
 r45 :: FloatingPic -> FloatingPic
-r45 = f_r45 
+-- V.+ Es la opreacion para la suma de vectores.
+--            f (       d+(w+h)/2         ,       (w+h)/2       ,         (h-w)/2    )
+r45 p d w h = p (d V.+ (half (w V.+ h)))     (half (w V.+ h))         (half (h V.- w))
+--    d w h     |----------------------|     |---------------|        |--------------|
+--                     d = origen                w = ancho               h = alto
 
 -- Rotar (b -> b)
 rot :: FloatingPic -> FloatingPic
@@ -71,6 +70,7 @@ sup = undefined
 -- produce una representación visual FloatingPic. 
 -- Queremos modificar esta función f para que pueda interpretar valores del tipo Dibujo a, 
 -- es decir, cambiar la interpretación para que funcione con dibujos. 
+-- 
 --                          ----- Vector -> Vector -> Vector -> Picture
 --                          |
 --                          |                            ---------------- Vector -> Vector -> Vector -> Picture

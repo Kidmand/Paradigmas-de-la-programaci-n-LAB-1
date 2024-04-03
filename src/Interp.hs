@@ -43,7 +43,7 @@ initial (Conf n dib intBas) size = display win white $ withGrid fig size
 -- V.+ Es la operacion para la suma de vectores.
 -- V.- Es la operacion para la resta de vectores.
 -- V.* Es la operacion para la suma de vectores.
--- half(x V.k y) Es la operacion para la divison de vectores, donde k puede ser mul, res, sum.
+-- half(x V.k y) Multiplica el escalar 1/2 por el vector, en este caso k=(x V.P y): donde p = */+/- y k es un vector.
 -- ((0,0) V.- x) Es la operacion para convertir el vector negativo.
 
 -- h = alto

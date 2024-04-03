@@ -1,8 +1,8 @@
 module Main (main) where
 
-import Dibujos.Ejemplo (ejemploConf)
+--import Dibujos.Ejemplo (ejemploConf)
 import Dibujos.Feo (feoConf)
-import Dibujos.Cuadrados(cuadConf)
+--import Dibujos.Cuadrados(cuadConf)
 import FloatingPic (Conf (..))
 import Interp (initial)
 import System.Environment (getArgs)
@@ -13,7 +13,7 @@ import InterpSVG (ConfSVG, initialSVG', simpleSVG)
 
 -- Lista de configuraciones de los dibujos
 configs :: [Conf]
-configs = [ejemploConf, feoConf,cuadConf 3]
+configs = [feoConf]
 
 configsH :: [ConfH]
 configsH = map (\(Conf n p _) -> simpleHaha n p) configs
@@ -49,3 +49,32 @@ main = do
     initialSVG' configsSVG (args!!1) 
     exitSuccess
   initial' configs $ head args
+
+
+--FIXME: Los siguientes comandos, hace que funcione el main.
+--ghc -package containers -package haha -package text -package lucid-svg -o mi_programa Main.hs
+-- ./mi_programa -l // Para ver los dibujos disponibles pj, me va a dar una lista de dibujos [Feo, ..., ..., etc]
+-- ./mi_programa Feo // ejecuta el archivo.
+
+--FIXME: Otra compilacion que es la mejor, pero les puse las anteriores para que entiendan un poco que es lo
+--       que se está ejecutando, es la siguiente.
+--       Dentro de la carpeta (paradigmas-24-lab-1-g45) ejecuten esta linea. --| cabal run dibujos Feo |--
+
+--       Pj las siguientes lineas son dependecias para que Haskell pueda compilar los archivos armoniosamente
+--       haha ^>=0.3.1.1,
+--       containers ^>=0.6.8,
+--       lucid-svg ^>=0.7.1.1,
+--       text ^>=2.0.2
+
+--FIXME: Otra cosa es que cabal, prácticamente es como Makefile pero para haskell, construyendo todas las
+--       dependecias entre haskell y las bibliotecas.
+
+--FIXME: Para que esto anduviera, tuve que borrar: 
+--       --| import Dibujos.Ejemplo (ejemploConf) |-- /Main.hs line 3
+--       --| import Dibujos.Cuadrados(cuadConf) |-- /Main.hs line 5
+--       Del archivo dibujos.cabal, tuve que borrar:
+--       --| Dibujos.Ejemplo |-- /dibujos.cabal line 63
+--       --| Dibujos.Cuadrados |-- /dibujos.cabal line 66
+--       También modifiqué --| configs = [feoConf] |-- /Main.hs line 16
+--       Antes estaba así --| configs = [feoConf, ejemploConf, cuadConf 3] |-- /Main.hs -> line 16
+--       que justamene son las funciones de los modulos --| Dibujos.Ejemplo, Dibujos.Feo, Dibujos.Cuadrado |-- /Main.hs line 3-5

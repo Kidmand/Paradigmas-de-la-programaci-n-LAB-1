@@ -42,9 +42,9 @@ initial (Conf n dib intBas) size = display win white $ withGrid fig size
 
 -- V.+ Es la operacion para la suma de vectores.
 -- V.- Es la operacion para la resta de vectores.
--- V.* Es la operacion para la suma de vectores.
+-- V.* Es la operacion para la multiplicacion de vectores.
 -- half(x V.k y) Multiplica el escalar 1/2 por el vector, en este caso k=(x V.P y): donde p = */+/- y k es un vector.
--- ((0,0) V.- x) Es la operacion para convertir el vector negativo.
+-- ((0,0) V.- x) Es la operacion para convertir el vector en negativo.
 
 -- h = alto
 -- w = ancho
@@ -160,3 +160,22 @@ interp f = foldDib
                       jun 
                       sup
                       -- Dibujo a evaluar currificado. 
+
+--interp :: Output a -> Output (Dibujo a)
+--interp f (asica a) = f a
+--interp f (Rot45 a) = r45 (interp f a)
+--interp f (Rotar a) = rot (interp f a)
+--interp f (Espejar a) = esp (interp f a)
+--interp f (Apilar x y d_1 d_2) = api x y (interp f d_1) (interp f d_2)
+--interp f (Juntar x y d_1 d_2) = jun x y (interp f d_1) (interp f d_2)
+--interp f (Encimar d_1 d_2) = sup (interp f d_1) (interp f d_2)
+
+
+--interp :: Output a -> Output (Dibujo a)
+--interp f (Basica a) = f a
+--interp f (Encimar dib1 dib2) = \d w h -> encimar (interp f dib1 d w h) (interp f dib2 d w h) d w h
+--interp f (Apilar x y dib1 dib2) = \d w h -> apilar x y (interp f dib1 d w h) (interp f dib2 d w h) d w h
+--interp f (Juntar x y dib1 dib2) = \d w h -> juntar x y (interp f dib1 d w h) (interp f dib2 d w h) d w h
+--interp f (Rot45 dib) = \d w h -> rot45 (interp f dib d w h) d w h
+--interp f (Rotar dib) = \d w h -> rotar (interp f dib d w h) d w h
+--interp f (Espejar dib) = \d w h -> espejar (interp f dib d w h) d w h

@@ -37,7 +37,7 @@ initial (Conf n dib intBas) size = display win white $ withGrid fig size
 
 
 
---FIXME: Informacion importante
+--NOTE: Informacion importante
 -----------------------------------------------------------------------------------------------------------------------
 
 -- V.+ Es la operacion para la suma de vectores.

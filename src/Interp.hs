@@ -17,7 +17,7 @@ initial :: Conf -> Float -> IO ()
 --            -------------> nombre
 --            |  ----------> dibujo                  ----> (withGrid fig size)
 --            |  |    -----> interpretación básica   | 
---            |  |    |      -> Tamaño de la ventana |
+--            |  |    |      -> Tamaño de la ventana | 
 --            |  |    |      |                       |
 initial (Conf n dib intBas) size = display win white $ withGrid fig size
   where
@@ -80,7 +80,7 @@ r45 f d w h = f (d V.+ (half (w V.+ h)))     (half (w V.+ h))         (half (h V
 -----------------------------------------------------------------------------------------------------------------------
 rot :: FloatingPic -> FloatingPic 
 --           f  (  d+w    ,  h  ,      -w     )
-rot f d w h = f (d V.+ w)   (h)   ((0,0) V.- w) -- ---> f(d+w, h, -w)       
+rot f d w h = f (d V.+ w)   (h)   (zero V.- w) -- ---> f(d+w, h, -w)       
 -----------------------------------------------------------------------------------------------------------------------
 
 
@@ -89,7 +89,7 @@ rot f d w h = f (d V.+ w)   (h)   ((0,0) V.- w) -- ---> f(d+w, h, -w)
 -----------------------------------------------------------------------------------------------------------------------
 esp :: FloatingPic -> FloatingPic
 --            f(   d+w    ,      -w       ,  h)
-esp f d w h = f (d V.+ w)   ((0,0) V.- w)   (h) -- ---> f(d+w, -w, h)
+esp f d w h = f (d V.+ w)   (zero V.- w)   (h) -- ---> f(d+w, -w, h)
 -----------------------------------------------------------------------------------------------------------------------
 
 

@@ -155,3 +155,12 @@ figuras (Juntar _ _ d_1 d_2) = figuras d_1 ++ figuras d_2
 figuras (Rot45 d) = figuras d
 figuras (Rotar d) = figuras d
 figuras (Espejar d) = figuras d
+
+
+
+dibujoConf :: Conf
+dibujoConf = Conf {
+    name = "Feo"
+    , pic = testAll
+    , bas = interpBas
+}

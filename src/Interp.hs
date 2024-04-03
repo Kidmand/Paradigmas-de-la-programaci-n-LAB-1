@@ -33,38 +33,108 @@ initial (Conf n dib intBas) size = display win white $ withGrid fig size
     withGrid p x = translate desp desp $ pictures [p, color grey $ grid (ceiling $ size / 10) (0, 0) x 10] -- Combina nuestra figura con la grilla.
     grey = makeColorI 100 100 100 100 -- Es el color gris que usamos para la grilla.
 
+
+
+
+
+--FIXME: Informacion importante
+-----------------------------------------------------------------------------------------------------------------------
+
+-- V.+ Es la operacion para la suma de vectores.
+-- V.- Es la operacion para la resta de vectores.
+-- V.* Es la operacion para la suma de vectores.
+-- half(x V.k y) Es la operacion para la divison de vectores, donde k puede ser mul, res, sum.
+-- ((0,0) V.- x) Es la operacion para convertir el vector negativo.
+
+-- h = alto
+-- w = ancho
+-- d = origen
+
+-----------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
 -- Interpretación de (^^^)
--- ?? Basica (a -> b) ?? 
+-----------------------------------------------------------------------------------------------------------------------
 ov :: Picture -> Picture -> Picture
 ov p q = undefined
+-----------------------------------------------------------------------------------------------------------------------
+
+
 
 -- Rotar45 (b -> b)
+-----------------------------------------------------------------------------------------------------------------------
 r45 :: FloatingPic -> FloatingPic
--- V.+ Es la opreacion para la suma de vectores.
 --            f (       d+(w+h)/2         ,       (w+h)/2       ,         (h-w)/2    )
-r45 p d w h = p (d V.+ (half (w V.+ h)))     (half (w V.+ h))         (half (h V.- w))
---    d w h     |----------------------|     |---------------|        |--------------|
---                     d = origen                w = ancho               h = alto
+r45 f d w h = f (d V.+ (half (w V.+ h)))     (half (w V.+ h))         (half (h V.- w)) -- ---> f(d+(w+h)/2, (w+h)/2, (h-w)/2)                         
+-----------------------------------------------------------------------------------------------------------------------
+
+
 
 -- Rotar (b -> b)
-rot :: FloatingPic -> FloatingPic
-rot = undefined
+-----------------------------------------------------------------------------------------------------------------------
+rot :: FloatingPic -> FloatingPic 
+--           f  (  d+w    ,  h  ,      -w     )
+rot f d w h = f (d V.+ w)   (h)   ((0,0) V.- w) -- ---> f(d+w, h, -w)       
+-----------------------------------------------------------------------------------------------------------------------
+
+
 
 -- Espejar (b -> b)
+-----------------------------------------------------------------------------------------------------------------------
 esp :: FloatingPic -> FloatingPic
-esp = undefined
+--            f(   d+w    ,      -w       ,  h)
+esp f d w h = f (d V.+ w)   ((0,0) V.- w)   (h) -- ---> f(d+w, -w, h)
+-----------------------------------------------------------------------------------------------------------------------
+
+
+
+-- Superponer/Encimar (b -> b -> b) 
+-----------------------------------------------------------------------------------------------------------------------
+sup :: FloatingPic -> FloatingPic -> FloatingPic
+--               f(d, w, h) ∪ g(d, w, h)
+sup f g d w h = pictures [(f d w h), (g d w h)]  -- ---> f(d, w, h) ∪ g(d, w, h)
+-----------------------------------------------------------------------------------------------------------------------
+
+
 
 -- Apilar (Float -> Float -> b -> b -> b)
+-----------------------------------------------------------------------------------------------------------------------
 api :: Float -> Float -> FloatingPic -> FloatingPic -> FloatingPic
-api = undefined
+--                            f (d + h'   , w ,   r*h   ) ∪ g(d, w, h') where r' = n/(m+n), r=m/(m+n), h'=r'*h
+api m n f g d w h = pictures [(f (d V.+ h')  w  (r V.* h)) , (g d w h')] -- ---> f(d + h', w, r*h) ∪ g(d, w, h')
+                   where r' = (n/(m+n))
+                         r  = (m/(m+n))
+                         h' = (r' V.* h)
+-----------------------------------------------------------------------------------------------------------------------
+
+
 
 -- Juntar  (Float -> Float -> b -> b -> b)
-jun :: Float -> Float -> FloatingPic -> FloatingPic -> FloatingPic
-jun = undefined
+-----------------------------------------------------------------------------------------------------------------------
+jun :: Float -> Float -> FloatingPic -> FloatingPic -> FloatingPic                                                    
 
--- Encimar (b -> b -> b) 
-sup :: FloatingPic -> FloatingPic -> FloatingPic
-sup = undefined       
+--                        FIXME: -------> Aca hay un error, x no esta declarada. Para mi va d.
+--                              |
+--                              |            
+--                            f(x, w', h) ∪ g (   d+w'  ,    r'*w  , h) where r'=n/(m+n), r=m/(m+n), w'=r*w
+jun m n f g d w h = pictures [(f d w' h) , (g (d V.+ w') (r' V.* w) h)] -- ---> f(x, w', h) ∪ g(d+w', r'*w, h) 
+                    where r  = (m/(m+n))
+                          r' = (n/(m+n))
+                          w' = (r V.* w)
+
+
+--FIXME: Mejor explicacion del error: x aparece definida en las cosas que nos pasaron los profes,
+--       pero si observamos bien la función, nos daremos cuenta que x no pinta nada, por lo que creo
+--       que en realidad va d en lugar de x.
+
+-----------------------------------------------------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
 
 -- La función interp toma una función f que puede interpretar un valor de tipo a y 
 -- produce una representación visual FloatingPic. 

@@ -1,68 +1,64 @@
 module Dibujos.Grilla
  where
 
-import Dibujo (Dibujo, figura, juntar, apilar, rot45, rotar, encimar, espejar)
+import Dibujo (Dibujo, figura, juntar, apilar, encimar)
 import FloatingPic(Conf(..), Output, half, zero)
 import qualified Graphics.Gloss.Data.Point.Arithmetic as V
-import Graphics.Gloss ( Picture, blue, red, color, pictures, rectangleSolid, scale, text, black, white, translate)
+import Graphics.Gloss ( Picture, scale, text, translate)
 
+data BasicaTuplas = Tupla (Int, Int) deriving (Show, Eq)
 
-data Color = Azul | Rojo
-    deriving (Show, Eq)
+s_val = 0.2 -- Función constante para el tamaño de la fuente.
 
-data BasicaSinColor = Rectangulo | Cruz | Triangulo | Efe
-    deriving (Show, Eq)
+-- Dibujamos la tupla.
+drawTextTupla :: BasicaTuplas -> Picture
+drawTextTupla (Tupla (x, y)) = scale s_val s_val $ text $ "(" ++ show x ++ "," ++ show y ++ ")"
 
-type Basica = (BasicaSinColor, Color)
+-- Interpretamos la tupla para gloss con sus vectores.
+interpBasicaTuplas :: Output BasicaTuplas
+interpBasicaTuplas tupla (d_x, d_y) (w_x, w_y) (h_x, h_y) = translate (d_x + w_x/4) (d_y + h_y/2) $ drawTextTupla tupla
 
-colorear :: Color -> Picture -> Picture
-colorear Azul = color blue
-colorear Rojo = color red
+-- Generamos la figura a partir de una tupla.
+figTupla :: BasicaTuplas -> Dibujo BasicaTuplas
+figTupla b = figura b
 
-drawSquare :: Int -> Int -> Picture
-drawSquare i j = pictures
-    [ translate (fromIntegral $ j * 100) (fromIntegral $ (7-i) * 110) $ color white $ rectangleSolid 50 50
-    , translate (fromIntegral $ j * 100) (fromIntegral $ (7-i) * 110) $ color black $ scale 0.2 0.2 $ text $ " (" ++ show i ++ "," ++ show j ++ ")"
-    ]
+-- Generamos una línea de la grilla.
+drawLineGrilla :: Int -> Int -> [Dibujo BasicaTuplas]
+drawLineGrilla x 0 = [figTupla (Tupla (x, 0))]
+drawLineGrilla x y = drawLineGrilla x (y - 1) ++ [figTupla (Tupla (x, y))]
 
+-- Generamos la grilla x por y en un array de dibujos.
+drawGrilla :: Int -> Int -> [[Dibujo BasicaTuplas]]
+drawGrilla 0 y = [drawLineGrilla 0 y]
+drawGrilla x y = (drawGrilla (x-1) y) ++ [(drawLineGrilla x y)]
 
-drawGrid :: Output BasicaSinColor
-drawGrid _ _ _ _ = pictures [drawSquare i j | i <- [0..7], j <- [0..7]]
-
-
-interpBas :: Output Basica
-interpBas (b, c) x y w = colorear c $ drawGrid b x y w
-
-
-
---NOTE: Hay que formar funciones que devuelvan Dibujo Basica para meter en la grilla.
-figRoja :: BasicaSinColor -> Dibujo Basica
-figRoja b = figura (b, Rojo)
-
+-- Generamos una fila a partir de un arreglo.
 row :: [Dibujo a] -> Dibujo a
 row [] = error "row: no puede ser vacío"
 row [d] = d
 row (d:ds) = juntar 1 (fromIntegral $ length ds) d (row ds)
 
+-- Generamos una columna a partir de un arreglo.
 column :: [Dibujo a] -> Dibujo a
 column [] = error "column: no puede ser vacío"
 column [d] = d
 column (d:ds) = apilar 1 (fromIntegral $ length ds) d (column ds)
 
+-- Generamos la grilla a partir de un arreglo.
 grilla :: [[Dibujo a]] -> Dibujo a
 grilla = column . map row
 
-testAll :: Dibujo Basica
-testAll = grilla [
-     [figRoja Triangulo]
-    ]
+-- Generamos la grilla x por y.
+grillaOut :: Int -> Int -> Dibujo BasicaTuplas
+grillaOut x y = grilla (drawGrilla x y)
 
-
-grillaConf :: Conf
-grillaConf = Conf {
-    name = "Grilla"
-    , pic = testAll
-    , bas = interpBas
+-- Exportamos la configuración de la grilla.
+grillaConf :: Int -> Int -> Conf
+grillaConf x y = Conf {
+     name = "Grilla"
+    ,pic = grillaOut x y
+    ,bas = interpBasicaTuplas
 }
 
--- NOTE: para compilar primero estar en la carpeta /paradigmas-24-lab-1-g45 y ejecutar --| cabal run dibujos Grilla |--
+-- NOTE: Para compilar primero estar en la carpeta "/paradigmas-24-lab-1-g45" 
+--       y ejecutar "cabal run dibujos Grilla"

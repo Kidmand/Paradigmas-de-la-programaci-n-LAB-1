@@ -14,7 +14,8 @@ import InterpSVG (ConfSVG, initialSVG', simpleSVG)
 
 -- Lista de configuraciones de los dibujos
 configs :: [Conf]
-configs = [feoConf, (grillaConf 7 7 (800/4000)) ]
+configs = [feoConf, (grillaConf 7 7 (800/4000)) ] --NOTE: Para que ande a escala hay que modificar 800 por el valor que
+                                                  --      pasemos a initial c 800 line 33
 
 configsH :: [ConfH]
 configsH = map (\(Conf n p _) -> simpleHaha n p) configs

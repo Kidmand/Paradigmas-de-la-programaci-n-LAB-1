@@ -13,8 +13,8 @@ data BasicaTuplas = Tupla (Int, Int,   Float ) deriving (Show, Eq)
 drawTextTupla :: BasicaTuplas -> Picture
 drawTextTupla (Tupla (x, y, fontSize)) = scale fontSize fontSize $ text $ "(" ++ show x ++ "," ++ show y ++ ")"
 
--- Interpretamos la tupla para gloss con sus vectores.                         ---> FIXME: Nose porque con 4 queda bien, pero para 2 que es lo intuitivo no.
-interpBasicaTuplas :: Output BasicaTuplas --                                   |
+-- Interpretamos la tupla para gloss con sus vectores.
+interpBasicaTuplas :: Output BasicaTuplas
 interpBasicaTuplas tupla (d_x, d_y) (w_x, _) (_, h_y) = translate (d_x + w_x/4) (d_y + h_y/2) $ drawTextTupla tupla
 
 -- NOTE:  Explicación de por qué hay que dividir por 4. InterbasicaTuplas recibe como parámetros

@@ -18,7 +18,7 @@ windowSize = 800
 
 -- Lista de configuraciones de los dibujos
 configs :: [Conf]
-configs = [feoConf, (grillaConf 7 7 (windowSize/4000)) ] --NOTE: El fontSize depende del tamaño de la ventana.
+configs = [feoConf, (grillaConf 7 7 windowSize) ]
 
 configsH :: [ConfH]
 configsH = map (\(Conf n p _) -> simpleHaha n p) configs

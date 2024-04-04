@@ -6,13 +6,12 @@ import FloatingPic(Conf(..), Output, half, zero)
 import qualified Graphics.Gloss.Data.Point.Arithmetic as V
 import Graphics.Gloss ( Picture, scale, text, translate)
 
-data BasicaTuplas = Tupla (Int, Int) deriving (Show, Eq)
+data BasicaTuplas = Tupla (Int, Int, Float) deriving (Show, Eq)
 
-s_val = 0.2 -- Función constante para el tamaño de la fuente.
 
 -- Dibujamos la tupla.
 drawTextTupla :: BasicaTuplas -> Picture
-drawTextTupla (Tupla (x, y)) = scale s_val s_val $ text $ "(" ++ show x ++ "," ++ show y ++ ")"
+drawTextTupla (Tupla (x, y, z)) = scale z z $ text $ "(" ++ show x ++ "," ++ show y ++ ")"
 
 -- Interpretamos la tupla para gloss con sus vectores.                         ---> FIXME: Nose porque con 4 queda bien, pero para 2 que es lo intuitivo no.
 interpBasicaTuplas :: Output BasicaTuplas --                                   |
@@ -23,14 +22,14 @@ figTupla :: BasicaTuplas -> Dibujo BasicaTuplas
 figTupla b = figura b
 
 -- Generamos una línea de la grilla.
-drawLineGrilla :: Int -> Int -> [Dibujo BasicaTuplas]
-drawLineGrilla x 0 = [figTupla (Tupla (x, 0))]
-drawLineGrilla x y = drawLineGrilla x (y - 1) ++ [figTupla (Tupla (x, y))]
+drawLineGrilla :: Int -> Int -> Float-> [Dibujo BasicaTuplas]
+drawLineGrilla x 0 z = [figTupla (Tupla (x, 0, z))]
+drawLineGrilla x y z = drawLineGrilla x (y - 1) z ++ [figTupla (Tupla (x, y, z))]
 
 -- Generamos la grilla x por y en un array de dibujos.
-drawGrilla :: Int -> Int -> [[Dibujo BasicaTuplas]]
-drawGrilla 0 y = [drawLineGrilla 0 y]
-drawGrilla x y = (drawGrilla (x-1) y) ++ [(drawLineGrilla x y)]
+drawGrilla :: Int -> Int -> Float -> [[Dibujo BasicaTuplas]]
+drawGrilla 0 y z = [drawLineGrilla 0 y z]
+drawGrilla x y z = (drawGrilla (x-1) y z) ++ [(drawLineGrilla x y z)]
 
 -- Generamos una fila a partir de un arreglo.
 row :: [Dibujo a] -> Dibujo a
@@ -49,14 +48,14 @@ grilla :: [[Dibujo a]] -> Dibujo a
 grilla = column . map row
 
 -- Generamos la grilla x por y.
-grillaOut :: Int -> Int -> Dibujo BasicaTuplas
-grillaOut x y = grilla (drawGrilla x y)
+grillaOut :: Int -> Int -> Float-> Dibujo BasicaTuplas
+grillaOut x y z = grilla (drawGrilla x y z)
 
 -- Exportamos la configuración de la grilla.
-grillaConf :: Int -> Int -> Conf
-grillaConf x y = Conf {
+grillaConf :: Int -> Int -> Float-> Conf
+grillaConf x y z = Conf {
      name = "Grilla"
-    ,pic = grillaOut x y
+    ,pic = grillaOut x y z 
     ,bas = interpBasicaTuplas
 }
 

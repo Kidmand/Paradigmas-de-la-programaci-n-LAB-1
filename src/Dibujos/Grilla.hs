@@ -14,8 +14,8 @@ s_val = 0.2 -- Función constante para el tamaño de la fuente.
 drawTextTupla :: BasicaTuplas -> Picture
 drawTextTupla (Tupla (x, y)) = scale s_val s_val $ text $ "(" ++ show x ++ "," ++ show y ++ ")"
 
--- Interpretamos la tupla para gloss con sus vectores.
-interpBasicaTuplas :: Output BasicaTuplas
+-- Interpretamos la tupla para gloss con sus vectores.                         ---> FIXME: Nose porque con 4 queda bien, pero para 2 que es lo intuitivo no.
+interpBasicaTuplas :: Output BasicaTuplas --                                   |
 interpBasicaTuplas tupla (d_x, d_y) (w_x, w_y) (h_x, h_y) = translate (d_x + w_x/4) (d_y + h_y/2) $ drawTextTupla tupla
 
 -- Generamos la figura a partir de una tupla.

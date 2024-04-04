@@ -51,13 +51,17 @@ grilla = column . map row
 grillaOut :: Int -> Int -> Float-> Dibujo BasicaTuplas
 grillaOut x y fontSize = grilla (drawGrilla x y fontSize)
 
+-- Calculamos el tamaño de la fuente.
+calculateFontSize :: Int -> Int -> Float -> Float
+calculateFontSize x y windowSize = windowSize / (((fromIntegral (x+y))/2) * 565)
+
 -- Exportamos la configuración de la grilla.
 --      Resivimos como parametros el tamaño de la grilla y el tamaño de la ventana.
 --      El fontSize depende del tamaño de la ventana, logrando que se vea bien en cualquier ventana.
 grillaConf :: Int -> Int -> Float-> Conf
 grillaConf x y windowSize = Conf {
      name = "Grilla"
-    ,pic = grillaOut x y (windowSize/4000)
+    ,pic = grillaOut x y (calculateFontSize x y windowSize)
     ,bas = interpBasicaTuplas
 }
 

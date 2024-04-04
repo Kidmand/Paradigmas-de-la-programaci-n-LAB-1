@@ -8,8 +8,6 @@ import Graphics.Gloss ( Picture, scale, text, translate)
 
 data BasicaTuplas = Tupla (Int, Int, Float) deriving (Show, Eq)
 
-s_val :: Float
-s_val = 0.025 -- Función constante para el tamaño de la fuente.
 
 -- Dibujamos la tupla.
 drawTextTupla :: BasicaTuplas -> Picture

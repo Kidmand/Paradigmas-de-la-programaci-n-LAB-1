@@ -12,10 +12,13 @@ import Control.Monad (when)
 import InterpHaha (ConfH, simpleHaha, initialH')
 import InterpSVG (ConfSVG, initialSVG', simpleSVG)
 
+-- Tamaño de la ventana.
+windowSize :: Float
+windowSize = 800
+
 -- Lista de configuraciones de los dibujos
 configs :: [Conf]
-configs = [feoConf, (grillaConf 7 7 (800/4000)) ] --NOTE: Para que ande a escala hay que modificar 800 por el valor que
-                                                  --      pasemos a initial c 800 line 33
+configs = [feoConf, (grillaConf 7 7 (windowSize/4000)) ] --NOTE: El fontSize depende del tamaño de la ventana.
 
 configsH :: [ConfH]
 configsH = map (\(Conf n p _) -> simpleHaha n p) configs
@@ -30,7 +33,7 @@ initial' [] n = do
 initial' (c : cs) n =
   if n == name c
     then
-      initial c 800
+      initial c windowSize
     else
       initial' cs n
 

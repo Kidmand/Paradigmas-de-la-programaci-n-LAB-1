@@ -1,6 +1,6 @@
 module Main (main) where
 
---import Dibujos.Ejemplo (ejemploConf)
+import Dibujos.Escher (escher)
 import Dibujos.Grilla (grillaConf)
 import Dibujos.Feo (feoConf)
 --import Dibujos.Cuadrados(cuadConf)
@@ -18,7 +18,7 @@ windowSize = 800
 
 -- Lista de configuraciones de los dibujos
 configs :: [Conf]
-configs = [feoConf, (grillaConf 7 7 windowSize) ]
+configs = [feoConf, (grillaConf 7 7 windowSize), escher ]
 
 configsH :: [ConfH]
 configsH = map (\(Conf n p _) -> simpleHaha n p) configs

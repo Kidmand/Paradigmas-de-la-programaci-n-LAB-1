@@ -39,15 +39,15 @@ type Pred a = a -> Bool
 -- -- Compo probar: "cambiar esCuadrado cuadradoACirculo dibujo_de_ejemplo"
 
 pf :: Pred a -> (a -> Dibujo a) -> a -> Dibujo a
-pf pred f x
-  | pred x = f x
+pf pre f x
+  | pre x = f x
   | otherwise = figura x
 
 -- Dado un predicado sobre básicas, cambiar todas las que satisfacen
 -- el predicado por la figura básica indicada por el segundo argumento.
 cambiar :: Pred a -> (a -> Dibujo a) -> Dibujo a -> Dibujo a
-cambiar pred f d = foldDib 
-                      (pf pred f) 
+cambiar pre f d = foldDib 
+                      (pf pre f) 
                       -- Cuando defines una función en Haskell con menos parámetros de los que necesita,
                       -- obtienes una nueva función como resultado, una función que espera los parámetros 
                       -- restantes. Esto es currificación.
@@ -64,8 +64,8 @@ orIgnoreFloat _ _ b1 b2 = b1 || b2
 
 -- Alguna básica satisface el predicado.
 anyDib :: Pred a -> Dibujo a -> Bool
-anyDib pred d = foldDib
-                  pred
+anyDib pre d = foldDib
+                  pre
                   (False ||) -- Currificación
                   (False ||) -- Currificación
                   (False ||) -- Currificación
@@ -79,8 +79,8 @@ andIgnoreFloat _ _ b1 b2 = b1 && b2
 
 -- Todas las básicas satisfacen el predicado.
 allDib :: Pred a -> Dibujo a -> Bool
-allDib pred d = foldDib
-                  pred
+allDib pre d = foldDib
+                  pre
                   (True &&) -- Currificación
                   (True &&) -- Currificación
                   (True &&) -- Currificación

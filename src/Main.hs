@@ -26,6 +26,20 @@ configsH = map (\(Conf n p _) -> simpleHaha n p) configs
 configsSVG :: [ConfSVG]
 configsSVG = map (\(Conf n p _) -> simpleSVG n p) configs
 
+
+loop :: [Conf] -> IO ()
+loop configs = do 
+    putStrLn "\nDesea dibujar otro? YES/NO----> elija alguno "
+    respuesta <- getLine
+    if  (respuesta == "NO")
+        then exitSuccess
+        else do
+            putStrLn "\nIngrese el nombre del dibujo? "
+            nombreDibujo <- getLine
+            initial' configs nombreDibujo
+            loop configs
+
+
 -- Dibuja el dibujo n
 initial' :: [Conf] -> String -> IO ()
 initial' [] n = do
@@ -33,7 +47,7 @@ initial' [] n = do
 initial' (c : cs) n =
   if n == name c
     then
-      initial c windowSize
+      (initial c windowSize) 
     else
       initial' cs n
 
@@ -41,11 +55,14 @@ main :: IO ()
 main = do
   args <- getArgs
   when (length args > 2 || null args) $ do
-    putStrLn "Sólo puede elegir un dibujo. Para ver los dibujos use -l ."
+    putStrLn "Sólo puede elegir un dibujo. Para ver los dibujos use lista ."
     exitFailure
-  when (head args == "-l") $ do
-    putStrLn "Los dibujos disponibles son:"
-    mapM_ (putStrLn . name) configs
+  when (head args == "--lista") $ do
+    putStrLn "\nLa lista de los dibujo es la siguiente:\n"
+    putStrLn $ "[" ++ unwords (map name configs) ++ "]"
+    putStrLn "\nCuál quieres dibujar? "
+    nombreDibujo <- getLine
+    initial' configs nombreDibujo
     exitSuccess
   when (head args == "-a" && not (null $ tail args)) $ do
     initialH' configsH (args!!1) 

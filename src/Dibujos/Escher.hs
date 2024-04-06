@@ -63,7 +63,7 @@ componer x y w z = (x ^^^ y)  ^^^ (w ^^^ z)
 --NOTE: Las funciones que siguen, son las constructoras del dibujo escher.
 -----------------------------------------------------------------------------------------------------------------------
 
--- Artificio, en el artículo de ederson se usaba blank, pero en este caso blank es de la librería gloss y 
+-- Artificio, en el artículo de hederson se usaba blank, pero en este caso blank es de la librería gloss y 
 -- no tipa si lo ponemos como está en el artículo, por lo que simplemente blankEscher, devuelve un dibujo blanco.
 blankEscher :: Dibujo Escher
 blankEscher = figura (Triangulo, Blanco)
@@ -128,7 +128,7 @@ draw_Escher = squarelimit2 (figura (Triangulo, Magenta))
 
 
 
---NOTE: Función encargada de pasar toda la información a interp.hs y main.hs
+--NOTE: Función encargada de pasar toda la información a interp.hs y main.hs.
 -----------------------------------------------------------------------------------------------------------------------
 escher :: Conf
 escher = Conf {
@@ -141,5 +141,5 @@ escher = Conf {
 
 -- NOTE: Para compilar primero estar en la carpeta "/paradigmas-24-lab-1-g45" 
 --       y ejecutar "cabal run dibujos Escher".
---       También pueden ejecutar cabal run dibujos -- --lista para ver todos 
+--       También pueden ejecutar "cabal run dibujos -- --lista" para ver todos 
 --       los dibujos en una lista y elegir alguno para dibujar. 

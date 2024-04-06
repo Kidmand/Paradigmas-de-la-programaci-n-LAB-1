@@ -1,5 +1,31 @@
-module Dibujos.Grilla where
+-- NOTE:  Lo que sigue corrige un error que aparece en el dibujo del pdf que nos pasaron los profes.
+--        Centraliza de manera más prolija el dibujo de la grilla. 
 
+--        Este error corregido está en la función --| interpBasicaTuplas |-- line 57.
+
+--        Explicación de por qué hay que dividir por 4. InterbasicaTuplas recibe como parámetros
+--        (0, 0) (size, 0) (0, size) donde size es el tamaño de la ventana. Estos parámetros los recibe
+--        en Interp.hs.
+--        (0, 0) = (d_x, d_y)
+--        (size, 0) = (w_x, _)
+--        (0, size) = (_, h_y)
+--        Supongamos un eje cartesiano (x,y). Donde tenemos las siguiente coordendas:
+--        (0,0) punto origen
+--        (4,0) punto anchura
+--        (0,4) punto altura
+--        Es decir, tenemos un vector que va desde el punto (0,0) al punto (4,4) en el eje cartesiano, 
+--        por lo que si dividimos por 2 el punto (4,4) tendriamos (2,2) es decir tendriamos 
+--        un vector que va desde el punto (0,0) al punto (2,2) y es justamente ahí donde está el problema, 
+--        ya que tendriamos la misma altura y anchura.
+--        Entonces dividiendo el punto (4,0) por el escalar 4 obtenndríamos el punto (1,0)
+--        que justamente es la mitad de lo que se mueve el punto (0,2).
+--        En otras palabras, si sumamos los puntos (1,0) + (0,2) tendriamos un vector que va
+--        desde (0,0) a (1,2), es decir que empezaríamos a dibujar en el plano en el punto (1,2)
+--        por supuesto se traspola a lo siguiente (d_x + w_x/4, d_y + h_y/2) que justamente harían lo mismo que (1,2s)
+--        En donde w_x = h_y = size.
+
+
+module Dibujos.Grilla where
 
 
 --NOTE: Importamos las librerías y módulos necesarios para construir nuestras funciones.
@@ -33,29 +59,7 @@ interpBasicaTuplas tupla (d_x, d_y) (w_x, _) (_, h_y) = translate (d_x + w_x/4) 
 -- FIXME: NOSE SI DEJAR ESTA EXPLICACION, ME PARECE MUY LARGA.
 --        Para mi la dejamos, eso visualiza de que realmente se entendió lo que se hizo.
 --        Además corrige y explica uno de los errores de los profes.  
---  
--- NOTE:  Explicación de por qué hay que dividir por 4. InterbasicaTuplas recibe como parámetros
---        (0, 0) (size, 0) (0, size) donde size es el tamaño de la ventana. Estos parámetros los recibe
---        en Interp.hs.
---        (0, 0) = (d_x, d_y)
---        (size, 0) = (w_x, _)
---        (0, size) = (_, h_y)
---        Supongamos un eje cartesiano (x,y). Donde tenemos las siguiente coordendas:
---        (0,0) punto origen
---        (4,0) punto anchura
---        (0,4) punto altura
---        Es decir, tenemos un vector que va desde el punto (0,0) al punto (4,4) en el eje cartesiano, 
---        por lo que si dividimos por 2 el punto (4,4) tendriamos (2,2) es decir tendriamos 
---        un vector que va desde el punto (0,0) al punto (2,2) y es justamente ahí donde está el problema, 
---        ya que tendriamos la misma altura y anchura.
---        Entonces dividiendo el punto (4,0) por el escalar 4 obtenndríamos el punto (1,0)
---        que justamente es la mitad de lo que se mueve el punto (0,2).
---        En otras palabras, si sumamos los puntos (1,0) + (0,2) tendriamos un vector que va
---        desde (0,0) a (1,2), es decir que empezaríamos a dibujar en el plano en el punto (1,2)
---        por supuesto se traspola a lo siguiente (d_x + w_x/4, d_y + h_y/2) que justamente harían lo mismo que (1,2s)
---        En donde w_x = h_y = size.
----------------------------------------------------------------------------------------------------------------------
-
+--        De igual manera, lo pasé arriba para que quede más prolijo.
 
 
 --NOTE: Funcion que modularizan las funciones constructoras.

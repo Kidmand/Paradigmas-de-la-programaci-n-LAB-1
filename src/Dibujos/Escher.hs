@@ -68,7 +68,9 @@ componer x y w z = (x ^^^ y)  ^^^ (w ^^^ z)
 blankEscher :: Dibujo Escher
 blankEscher = figura (Triangulo, Blanco)
 
--- La función que me contruye el cuarteto de los dibujos de escher.
+-- FIXME: Esta funcion ya esta definida como "cuarteto" en "dibujos.hs:100" por lo que es redundante
+--        y ademas creo que se esta pisando la funcion ya que tiene el mismo nombre.
+-- La función que me contruye el cuarteto de los dibujos de escher. 
 cuarteto :: Dibujo Escher -> Dibujo Escher -> Dibujo Escher -> Dibujo Escher  -> Dibujo Escher
 cuarteto p q r s = apilar 1 1 (juntar 1 1 p q) (juntar 1 1 r s)
 
@@ -147,8 +149,15 @@ column (d:ds) = apilar 1 (fromIntegral $ length ds) d (column ds)
 grilla :: [[Dibujo a]] -> Dibujo a
 grilla = column . map row
 
+-- FIXME: Que sentido tiene hacer esto si squarelimit3 devuelve un solo dibujo escher.
+--        por lo tanto el parametro que se le pasa a grilla es una lista de listas de un solo elemento.
+--        y la funcion grilla retorna lo mismo que squarelimit3 en ese caso particular.
+--        SOLUCIÓN: 
+--        draw_escher :: Dibujo Escher
+--        draw_escher = squarelimit3
+--        Queda una funcion que renombra a squarelimit3 y la retorna.
 draw_escher :: Dibujo Escher
-draw_escher = grilla [[squarelimit3]]
+draw_escher = grilla [[squarelimit3]] 
 -----------------------------------------------------------------------------------------------------------------------
 
 
@@ -162,3 +171,7 @@ escher = Conf {
     , bas = interpBas
 }
 -----------------------------------------------------------------------------------------------------------------------
+
+
+-- NOTE: Para compilar primero estar en la carpeta "/paradigmas-24-lab-1-g45" 
+--       y ejecutar "cabal run dibujos Escher"

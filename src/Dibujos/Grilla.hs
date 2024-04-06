@@ -1,13 +1,26 @@
-module Dibujos.Grilla
- where
+module Dibujos.Grilla where
 
+
+
+--NOTE: Importamos las librerías y módulos necesarios para construir nuestras funciones.
+-----------------------------------------------------------------------------------------------------------------------
 import Dibujo (Dibujo, figura, juntar, apilar)
 import FloatingPic(Conf(..), Output)
 import Graphics.Gloss ( Picture, scale, text, translate)
+-----------------------------------------------------------------------------------------------------------------------
 
+
+
+--NOTE: Definiciones de tipos y constructores de tipos.
+-----------------------------------------------------------------------------------------------------------------------
 -- Resumen del tipo       ( x ,  y , fontSize) 
 data BasicaTuplas = Tupla (Int, Int,   Float ) deriving (Show, Eq)
+-----------------------------------------------------------------------------------------------------------------------
 
+
+
+--NOTE: Estas funciones son las encargada de construir la tupla y pasarle como parámetro al interp.hs.
+---------------------------------------------------------------------------------------------------------------------
 
 -- Dibujamos la tupla.
 drawTextTupla :: BasicaTuplas -> Picture
@@ -17,6 +30,7 @@ drawTextTupla (Tupla (x, y, fontSize)) = scale fontSize fontSize $ text $ "(" ++
 interpBasicaTuplas :: Output BasicaTuplas
 interpBasicaTuplas tupla (d_x, d_y) (w_x, _) (_, h_y) = translate (d_x + w_x/4) (d_y + h_y/2) $ drawTextTupla tupla
 
+-- FIXME: NOSE SI DEJAR ESTA EXPLICACION, ME PARECE MUY LARGA.
 -- NOTE:  Explicación de por qué hay que dividir por 4. InterbasicaTuplas recibe como parámetros
 --        (0, 0) (size, 0) (0, size) donde size es el tamaño de la ventana. Estos parámetros los recibe
 --        en Interp.hs.
@@ -37,12 +51,21 @@ interpBasicaTuplas tupla (d_x, d_y) (w_x, _) (_, h_y) = translate (d_x + w_x/4) 
 --        desde (0,0) a (1,2), es decir que empezaríamos a dibujar en el plano en el punto (1,2)
 --        por supuesto se traspola a lo siguiente (d_x + w_x/4, d_y + h_y/2) que justamente harían lo mismo que (1,2s)
 --        En donde w_x = h_y = size.
+---------------------------------------------------------------------------------------------------------------------
 
 
+
+--NOTE: Funcion que modularizan las funciones constructoras.
+-----------------------------------------------------------------------------------------------------------------------
 -- Generamos la figura a partir de una tupla.
 figTupla :: BasicaTuplas -> Dibujo BasicaTuplas
 figTupla b = figura b
+-----------------------------------------------------------------------------------------------------------------------
 
+
+
+--NOTE: Las funciones que siguen, son las constructoras de la grilla.
+-----------------------------------------------------------------------------------------------------------------------
 -- Generamos una línea de la grilla.
 drawLineGrilla :: Int -> Int -> Float-> [Dibujo BasicaTuplas]
 drawLineGrilla x 0 fontSize = [figTupla (Tupla (x, 0, fontSize))]
@@ -52,7 +75,11 @@ drawLineGrilla x y fontSize = drawLineGrilla x (y - 1) fontSize ++ [figTupla (Tu
 drawGrilla :: Int -> Int -> Float -> [[Dibujo BasicaTuplas]]
 drawGrilla 0 y fontSize = [drawLineGrilla 0 y fontSize]
 drawGrilla x y fontSize = (drawGrilla (x-1) y fontSize) ++ [(drawLineGrilla x y fontSize)]
+-----------------------------------------------------------------------------------------------------------------------
 
+
+--NOTE: Funciones para construir la grilla a partir de las listas.
+-----------------------------------------------------------------------------------------------------------------------
 -- Generamos una fila a partir de un arreglo.
 row :: [Dibujo a] -> Dibujo a
 row [] = error "row: no puede ser vacío"
@@ -64,7 +91,12 @@ column :: [Dibujo a] -> Dibujo a
 column [] = error "column: no puede ser vacío"
 column [d] = d
 column (d:ds) = apilar 1 (fromIntegral $ length ds) d (column ds)
+-----------------------------------------------------------------------------------------------------------------------
 
+
+
+--NOTE: Funciones para construir la grilla, calculado el tamaño de fuente correspondiente a la ventana.
+-----------------------------------------------------------------------------------------------------------------------
 -- Generamos la grilla a partir de un arreglo.
 grilla :: [[Dibujo a]] -> Dibujo a
 grilla = column . map row
@@ -76,16 +108,27 @@ grillaOut x y fontSize = grilla (drawGrilla x y fontSize)
 -- Calculamos el tamaño de la fuente.
 calculateFontSize :: Int -> Int -> Float -> Float
 calculateFontSize x y windowSize = windowSize / (((fromIntegral (x+y))/2) * 565)
+-----------------------------------------------------------------------------------------------------------------------
 
+
+
+--NOTE: Función encargada de pasar toda la información a interp.hs y main.hs
+-----------------------------------------------------------------------------------------------------------------------
 -- Exportamos la configuración de la grilla.
---      Resivimos como parametros el tamaño de la grilla y el tamaño de la ventana.
---      El fontSize depende del tamaño de la ventana y la grilla.
+--      Input: 
+--          x: tamaño de la grilla en x.
+--          y: tamaño de la grilla en y.
+--          windowSize: tamaño de la ventana.
+--      Obs: El fontSize depende del tamaño de la ventana y la grilla.
 grillaConf :: Int -> Int -> Float-> Conf
 grillaConf x y windowSize = Conf {
      name = "Grilla"
     ,pic = grillaOut x y (calculateFontSize x y windowSize)
     ,bas = interpBasicaTuplas
 }
+-----------------------------------------------------------------------------------------------------------------------
+
+
 
 -- NOTE: Para compilar primero estar en la carpeta "/paradigmas-24-lab-1-g45" 
 --       y ejecutar "cabal run dibujos Grilla"

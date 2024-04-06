@@ -26,19 +26,6 @@ configsSVG :: [ConfSVG]
 configsSVG = map (\(Conf n p _) -> simpleSVG n p) configs
 
 
-loop :: [Conf] -> IO ()
-loop configs = do 
-    putStrLn "\nDesea dibujar otro? YES/NO----> elija alguno "
-    respuesta <- getLine
-    if  (respuesta == "NO")
-        then exitSuccess
-        else do
-            putStrLn "\nIngrese el nombre del dibujo? "
-            nombreDibujo <- getLine
-            initial' configs nombreDibujo
-            loop configs
-
-
 -- Dibuja el dibujo n
 initial' :: [Conf] -> String -> IO ()
 initial' [] n = do

@@ -3,7 +3,7 @@ module Dibujos.Escher where
 
 --NOTE: Importamos las librerías y módulos necesarios para construir nuestras funciones.
 -----------------------------------------------------------------------------------------------------------------------
-import Dibujo (Dibujo, figura, juntar, apilar, rot45, rotar, espejar, (^^^))
+import Dibujo (Dibujo, figura, juntar, apilar, rot45, rotar, espejar, (^^^), cuarteto)
 import FloatingPic(Conf(..), Output)
 import qualified Graphics.Gloss.Data.Point.Arithmetic as V
 import Graphics.Gloss ( Picture, white, color, magenta, line)
@@ -68,11 +68,6 @@ componer x y w z = (x ^^^ y)  ^^^ (w ^^^ z)
 blankEscher :: Dibujo Escher
 blankEscher = figura (Triangulo, Blanco)
 
--- FIXME: Esta funcion ya esta definida como "cuarteto" en "dibujos.hs:100" por lo que es redundante
---        y ademas creo que se esta pisando la funcion ya que tiene el mismo nombre.
--- La función que me contruye el cuarteto de los dibujos de escher. 
-cuarteto :: Dibujo Escher -> Dibujo Escher -> Dibujo Escher -> Dibujo Escher  -> Dibujo Escher
-cuarteto p q r s = apilar 1 1 (juntar 1 1 p q) (juntar 1 1 r s)
 
 -- El dibujo u
 dibujoU :: Dibujo Escher -> Dibujo Escher
@@ -127,38 +122,9 @@ squarelimit2 u = noneto (esquina 2 u) (lado 2 u) (rotarN 3(esquina 2 u))
 
 --NOTE: Modularización de la función squarelimit2 para que no tengamos que pasar parámetros.
 -----------------------------------------------------------------------------------------------------------------------
-squarelimit3 :: Dibujo Escher
-squarelimit3 = squarelimit2 (figura (Triangulo, Magenta))       
+draw_Escher :: Dibujo Escher
+draw_Escher = squarelimit2 (figura (Triangulo, Magenta))       
 -----------------------------------------------------------------------------------------------------------------------          
-
-
-
---NOTE: Funciones para construir la lista de listas de dibujos escher.
------------------------------------------------------------------------------------------------------------------------
-row :: [Dibujo a] -> Dibujo a
-row [] = error "row: no puede ser vacío"
-row [d] = d
-row (d:ds) = juntar 1 (fromIntegral $ length ds) d (row ds)
-
-column :: [Dibujo a] -> Dibujo a
-column [] = error "column: no puede ser vacío"
-column [d] = d
-column (d:ds) = apilar 1 (fromIntegral $ length ds) d (column ds)
-
-
-grilla :: [[Dibujo a]] -> Dibujo a
-grilla = column . map row
-
--- FIXME: Que sentido tiene hacer esto si squarelimit3 devuelve un solo dibujo escher.
---        por lo tanto el parametro que se le pasa a grilla es una lista de listas de un solo elemento.
---        y la funcion grilla retorna lo mismo que squarelimit3 en ese caso particular.
---        SOLUCIÓN: 
---        draw_escher :: Dibujo Escher
---        draw_escher = squarelimit3
---        Queda una funcion que renombra a squarelimit3 y la retorna.
-draw_escher :: Dibujo Escher
-draw_escher = grilla [[squarelimit3]] 
------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -167,11 +133,13 @@ draw_escher = grilla [[squarelimit3]]
 escher :: Conf
 escher = Conf {
     name = "Escher"
-    , pic = draw_escher
+    , pic = draw_Escher
     , bas = interpBas
 }
 -----------------------------------------------------------------------------------------------------------------------
 
 
 -- NOTE: Para compilar primero estar en la carpeta "/paradigmas-24-lab-1-g45" 
---       y ejecutar "cabal run dibujos Escher"
+--       y ejecutar "cabal run dibujos Escher".
+--       También pueden ejecutar cabal run dibujos -- --lista para ver todos 
+--       los dibujos en una lista y elegir alguno para dibujar. 

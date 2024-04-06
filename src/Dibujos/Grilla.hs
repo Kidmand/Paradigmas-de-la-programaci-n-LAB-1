@@ -31,6 +31,9 @@ interpBasicaTuplas :: Output BasicaTuplas
 interpBasicaTuplas tupla (d_x, d_y) (w_x, _) (_, h_y) = translate (d_x + w_x/4) (d_y + h_y/2) $ drawTextTupla tupla
 
 -- FIXME: NOSE SI DEJAR ESTA EXPLICACION, ME PARECE MUY LARGA.
+--        Para mi la dejamos, eso visualiza de que realmente se entendió lo que se hizo.
+--        Además corrige y explica uno de los errores de los profes.  
+--  
 -- NOTE:  Explicación de por qué hay que dividir por 4. InterbasicaTuplas recibe como parámetros
 --        (0, 0) (size, 0) (0, size) donde size es el tamaño de la ventana. Estos parámetros los recibe
 --        en Interp.hs.

@@ -3,7 +3,6 @@ module Main (main) where
 import Dibujos.Escher (escher)
 import Dibujos.Grilla (grillaConf)
 import Dibujos.Feo (feoConf)
---import Dibujos.Cuadrados(cuadConf)
 import FloatingPic (Conf (..))
 import Interp (initial)
 import System.Environment (getArgs)

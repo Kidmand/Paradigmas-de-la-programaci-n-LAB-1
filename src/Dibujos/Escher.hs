@@ -3,7 +3,7 @@ module Dibujos.Escher where
 
 --NOTE: Importamos las librerías y módulos necesarios para construir nuestras funciones.
 -----------------------------------------------------------------------------------------------------------------------
-import Dibujo (Dibujo, figura, juntar, apilar, rot45, rotar, espejar, (^^^), cuarteto)
+import Dibujo 
 import FloatingPic(Conf(..), Output)
 import qualified Graphics.Gloss.Data.Point.Arithmetic as V
 import Graphics.Gloss ( Picture, white, color, magenta, line)

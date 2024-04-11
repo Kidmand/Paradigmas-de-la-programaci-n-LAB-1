@@ -19,9 +19,8 @@ module Dibujo (
     change,
     foldDib,
     figuras,
-    Dibujo,
-    ) where
-
+    Dibujo(..) -- Exporta todos los constructores de Dibujo
+) where
 
 -- nuestro lenguaje 
 data Dibujo a = Basica a

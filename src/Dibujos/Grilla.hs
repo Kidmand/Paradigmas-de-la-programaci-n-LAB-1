@@ -3,8 +3,8 @@ module Dibujos.Grilla where
 
 --NOTE: Importamos las librerías y módulos necesarios para construir nuestras funciones.
 -----------------------------------------------------------------------------------------------------------------------
-import Dibujo (Dibujo, figura, juntar, apilar)
-import FloatingPic(Conf(..), Output)
+import Dibujo
+import FloatingPic
 import Graphics.Gloss ( Picture, scale, text, translate)
 -----------------------------------------------------------------------------------------------------------------------
 

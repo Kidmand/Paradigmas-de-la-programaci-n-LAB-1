@@ -1,7 +1,7 @@
 module Dibujos.Feo where
 
-import Dibujo (Dibujo, figura, juntar, apilar, rot45, rotar, encimar, espejar)
-import FloatingPic(Conf(..), Output, half, zero)
+import Dibujo 
+import FloatingPic
 import qualified Graphics.Gloss.Data.Point.Arithmetic as V
 import Graphics.Gloss ( Picture, blue, red, color, line, pictures )
 

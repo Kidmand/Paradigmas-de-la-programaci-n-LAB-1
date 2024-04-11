@@ -3,7 +3,7 @@ module Pred (
   cambiar, anyDib, allDib, orP, andP, falla
 ) where
 
-import Dibujo (Dibujo, figura, rot45, rotar, espejar, apilar, juntar, encimar, foldDib)
+import Dibujo
 
 type Pred a = a -> Bool
 

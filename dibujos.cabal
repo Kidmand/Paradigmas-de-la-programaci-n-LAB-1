@@ -90,7 +90,7 @@ test-suite pred_dibujos
     other-modules:    Pred, Dibujo
     type:             exitcode-stdio-1.0
     hs-source-dirs:   test src
-    main-is:          Test_Pred_Dibujos.hs
+    main-is:          TestPredDibujos.hs
     build-depends:    base ^>=4.17.2.1,
                       HUnit ^>=1.6.2.0                      
 

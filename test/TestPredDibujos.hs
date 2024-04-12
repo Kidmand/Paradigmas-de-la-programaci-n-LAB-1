@@ -20,7 +20,7 @@ import qualified System.Exit as Exit
 -- Con ghci ejecutar los siguientes comandos:
 --          0. "ghci -isrc"
 --          1. ":set -package HUnit"
---          2. ":l test/Test_Pred_Dibujos.hs"
+--          2. ":l test/TestPredDibujos.hs"
 --          3. "main"
 
 -- Prueba para la función figura.

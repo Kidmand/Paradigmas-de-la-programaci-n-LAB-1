@@ -77,20 +77,20 @@ executable dibujos
 test-suite predicados
     import:           warnings
     default-language: Haskell2010
-    other-modules:    Pred
+    other-modules:    Pred, Dibujo
     type:             exitcode-stdio-1.0
     hs-source-dirs:   test src
     main-is:          TestPred.hs
     build-depends:    base ^>=4.17.2.1,
                       HUnit ^>=1.6.2.0
 
-test-suite pred_dibujos
+test-suite dibujos_
     import:           warnings
     default-language: Haskell2010
-    other-modules:    Pred, Dibujo
+    other-modules:    Dibujo
     type:             exitcode-stdio-1.0
     hs-source-dirs:   test src
-    main-is:          TestPredDibujos.hs
+    main-is:          TestDibujos.hs
     build-depends:    base ^>=4.17.2.1,
                       HUnit ^>=1.6.2.0                      
 

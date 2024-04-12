@@ -173,10 +173,10 @@ main = do
 -- 4. Se ejecutan las pruebas con runTestTT en main.
 
 -- NOTE: ¿Como se ejecutan las pruebas?
--- Con cabal, ejecutar`cabal run pred_dibujos`.
+-- Con cabal, ejecutar`cabal run dibujos_`.
 -- Con ghci ejecutar los siguientes comandos:
 --          0. "ghci -isrc"
 --          1. ":set -package HUnit"
---          2. ":l test/TestPredDibujos.hs"
+--          2. ":l test/TestDibujos.hs"
 --          3. "main"
 --          4. ":q" para salir de ghci.

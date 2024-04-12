@@ -12,8 +12,6 @@ predEsCirculo x = (x == "circulo")
 predEsCuadrado :: Pred String
 predEsCuadrado x = (x == "cuadrado")
 
-predEsTriangulo :: Pred String
-predEsTriangulo x = (x == "triangulo")
 --------------------------------------------------------------------------------
 
 auxTestCambiar :: String -> Dibujo String

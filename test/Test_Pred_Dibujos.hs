@@ -3,7 +3,25 @@ import Test.HUnit
 import Dibujo 
 import qualified System.Exit as Exit
 
+-- NOTE: ¿Como funcionan las pruebas?
+-- Se usa el modulo Test.HUnit de pruebas unitarias.
+--
+-- 1. Crear una funcion para comprar el valor esperado con el valor obtenido.
+--          Se usa assertEqual :: String -> a -> a -> Assertion
+--          Ejemplo:   
+--          assertEqual "Mensaje de error" 1 (1+0)
+--
+-- 2. Luego, se debe crear un TestLabel con el nombre de la prueba y la función que se encargada del unitest.
+-- 3. Finalmente, se crea una lista de pruebas con todos los TestLabel.
+-- 4. Se ejecutan las pruebas con runTestTT en main.
 
+-- NOTE: ¿Como se ejecutan las pruebas?
+-- Con cabal, ejecutar`cabal run pred_dibujos`.
+-- Con ghci ejecutar los siguientes comandos:
+--          0. "ghci -isrc"
+--          1. ":set -package HUnit"
+--          2. ":l test/Test_Pred_Dibujos.hs"
+--          3. "main"
 
 -- Prueba para la función figura.
 testFigura :: Test

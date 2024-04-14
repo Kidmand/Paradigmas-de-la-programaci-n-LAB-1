@@ -237,13 +237,13 @@ test_foldDib_2 =
       -- Valor obtenido
       (foldDib f1 f2 f3 f4 f5 f6 f7 (Juntar 1 1 (Rot45 (Espejar (Basica "rectangulo"))) (Apilar 2 2 (Basica "rectangulo") (Encimar (Basica "rectangulo") (Basica "rectangulo")))))
   where
-    f1 b = Basica "circulo" -- Función para Basica
-    f2 = Rot45 -- Tipo para Rot45
-    f3 = Rotar -- Tipo para Rotar
-    f4 = Espejar -- Tipo para Espejar
-    f5 = Apilar -- Tipo para Apilar
-    f6 = Juntar -- Tipo para Juntar
-    f7 = Encimar -- Tipo para Encimar
+    f1 _ = Basica "circulo"         -- Función para Basica
+    f2 d = Rot45 d                  -- Tipo para Rot45
+    f3 d = Rotar d                  -- Tipo para Rotar
+    f4 d = Espejar d                -- Tipo para Espejar
+    f5 x y d1 d2 = Apilar x y d1 d2 -- Tipo para Apilar
+    f6 x y d1 d2 = Juntar x y d1 d2 -- Tipo para Juntar
+    f7 d1 d2 = Encimar d1 d2        -- Tipo para Encimar
 
 -- Prueba para la función figuras.
 -- La función (figuras d) debería devolver un array con cada básica del dibujo b.

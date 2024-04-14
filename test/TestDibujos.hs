@@ -223,6 +223,8 @@ test_foldDib =
     f5 = juntar -- Función para Apilar
     f6 = apilar -- Función para Juntar
     f7 d _ = Encimar d d -- Función para Encimar
+    --Obs: Se asume que las funciones rotar, espejar, rot45, juntar, apilar y encimar
+    --     están bien implementadas.
 
 -- Prueba para la función foldDib.
 -- La función (foldDib f1 f2 f3 f4 f5 f6 f7 d) debería aplicar en el dibujo d
@@ -244,6 +246,8 @@ test_foldDib_2 =
     f5 x y d1 d2 = Apilar x y d1 d2 -- Tipo para Apilar
     f6 x y d1 d2 = Juntar x y d1 d2 -- Tipo para Juntar
     f7 d1 d2 = Encimar d1 d2        -- Tipo para Encimar
+    -- Obs: se podrian usar las funciones ya definidas pero para no depender
+    --      de ellas se hace esto.
 
 -- Prueba para la función figuras.
 -- La función (figuras d) debería devolver un array con cada básica del dibujo b.

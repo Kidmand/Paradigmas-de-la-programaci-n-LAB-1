@@ -201,36 +201,13 @@ test_change =
       (change f (Juntar 1 1 (Basica "rectangulo") (Rot45 (Basica "rectangulo"))))
   where
     f :: String -> Dibujo String
-    f b = Basica "circulo" -- Cambia cualquier básica por un círculo
+    f _ = Basica "circulo" -- Cambia cualquier básica por un círculo
 
--- Prueba para la función foldDib.
+-- Pruebas para la función foldDib.
 -- La función (foldDib f1 f2 f3 f4 f5 f6 f7 d) debería aplicar en el dibujo d
 -- la función f1 a las Basicas, f2 a Rot45, f3 a Rotar, f4 a Espejar, f5 a Apilar, f6 a Juntar, f7 a Encimar.
-test_foldDib :: Test
-test_foldDib =
-  TestCase $
-    assertEqual
-      "Deberia cambiar cada básica del dibujo por un circulo. Y cada funcion por otra."
-      -- Valor esperado
-      (Apilar 1 1 (Rotar (Rot45 (Basica "circulo"))) (Juntar 2.0 2.0 (Basica "circulo") (Encimar (Rot45 (Basica "circulo")) (Rot45 (Basica "circulo")))))
-      -- Valor obtenido
-      (foldDib f1 f2 f3 f4 f5 f6 f7 (Juntar 1 1 (Rot45 (Espejar (Basica "rectangulo"))) (Apilar 2 2 (Basica "rectangulo") (Encimar (Espejar (Basica "rectangulo")) (Basica "rectangulo")))))
-  where
-    f1 _ = Basica "circulo" -- Función para Basica
-    f2 = rotar -- Función para Rot45
-    f3 = espejar -- Función para Rotar
-    f4 = rot45 -- Función para Espejar
-    f5 = juntar -- Función para Apilar
-    f6 = apilar -- Función para Juntar
-    f7 d _ = Encimar d d -- Función para Encimar
-    --Obs: Se asume que las funciones rotar, espejar, rot45, juntar, apilar y encimar
-    --     están bien implementadas.
-
--- Prueba para la función foldDib.
--- La función (foldDib f1 f2 f3 f4 f5 f6 f7 d) debería aplicar en el dibujo d
--- la función f1 a las Basicas, f2 a Rot45, f3 a Rotar, f4 a Espejar, f5 a Apilar, f6 a Juntar, f7 a Encimar.
-test_foldDib_2 :: Test
-test_foldDib_2 =
+test_foldDib_1 :: Test
+test_foldDib_1 =
   TestCase $
     assertEqual
       "Deberia cambiar cada básica del dibujo por un circulo."
@@ -248,6 +225,28 @@ test_foldDib_2 =
     f7 d1 d2 = Encimar d1 d2        -- Tipo para Encimar
     -- Obs: se podrian usar las funciones ya definidas pero para no depender
     --      de ellas se hace esto.
+-- Prueba para la función foldDib.
+-- La función (foldDib f1 f2 f3 f4 f5 f6 f7 d) debería aplicar en el dibujo d
+-- la función f1 a las Basicas, f2 a Rot45, f3 a Rotar, f4 a Espejar, f5 a Apilar, f6 a Juntar, f7 a Encimar.
+test_foldDib_2 :: Test
+test_foldDib_2 =
+  TestCase $
+    assertEqual
+      "Deberia cambiar cada básica del dibujo por un circulo. Y cada funcion por otra."
+      -- Valor esperado
+      (Apilar 1 1 (Rotar (Rot45 (Basica "circulo"))) (Juntar 2.0 2.0 (Basica "circulo") (Encimar (Rot45 (Basica "circulo")) (Rot45 (Basica "circulo")))))
+      -- Valor obtenido
+      (foldDib f1 f2 f3 f4 f5 f6 f7 (Juntar 1 1 (Rot45 (Espejar (Basica "rectangulo"))) (Apilar 2 2 (Basica "rectangulo") (Encimar (Espejar (Basica "rectangulo")) (Basica "rectangulo")))))
+  where
+    f1 _ = Basica "circulo" -- Función para Basica
+    f2 = rotar              -- Función para Rot45
+    f3 = espejar            -- Función para Rotar
+    f4 = rot45              -- Función para Espejar
+    f5 = juntar             -- Función para Apilar
+    f6 = apilar             -- Función para Juntar
+    f7 d _ = Encimar d d    -- Función para Encimar
+    --Obs: Se asume que las funciones rotar, espejar, rot45, juntar, apilar y encimar
+    --     están bien implementadas.
 
 -- Prueba para la función figuras.
 -- La función (figuras d) debería devolver un array con cada básica del dibujo b.
@@ -286,7 +285,7 @@ tests =
       TestLabel "test_ciclar" testCiclar,
       TestLabel "test_mapDib" test_mapDib,
       TestLabel "test_change" test_change,
-      TestLabel "test_foldDib" test_foldDib,
+      TestLabel "test_foldDib_1" test_foldDib_1,
       TestLabel "test_foldDib_2" test_foldDib_2,
       TestLabel "test_figuras" test_figuras
     ]

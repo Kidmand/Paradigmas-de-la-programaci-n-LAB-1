@@ -159,7 +159,7 @@ testCiclar =
       (ciclar (Basica "rectangulo"))
 
 -- Prueba para la función juntar.
--- DOC: La función (juntar x y d1 d2) debería combinar los dibujos d1 y d2 separados por x ancho e y alto.
+-- La función (juntar x y d1 d2) debería combinar los dibujos d1 y d2 separados por x ancho e y alto.
 test_juntar :: Test
 test_juntar =
   TestCase $
@@ -171,7 +171,7 @@ test_juntar =
       (juntar 3 4 (Basica "rectangulo") (Basica "rectangulo"))
 
 -- Prueba para la función mapDib.
--- DOC: La función (mapDib f d) debería aplicar la funcion f a cada Basica del dibujo d.
+-- La función (mapDib f d) debería aplicar la funcion f a cada Basica del dibujo d.
 test_mapDib :: Test
 test_mapDib =
   TestCase $
@@ -189,7 +189,7 @@ test_mapDib =
 -- 2. map (g . f) = mapDib g . mapDib f
 
 -- Prueba para la función change.
--- DOC: La función (change f d) debería cambiar cada básica del dibujo d con el resultado de aplicar la función f.
+-- La función (change f d) debería cambiar cada básica del dibujo d con el resultado de aplicar la función f.
 test_change :: Test
 test_change =
   TestCase $
@@ -204,10 +204,31 @@ test_change =
     f b = Basica "circulo" -- Cambia cualquier básica por un círculo
 
 -- Prueba para la función foldDib.
--- DOC: La función (foldDib f1 f2 f3 f4 f5 f6 f7 d) debería aplicar en el dibujo d 
+-- La función (foldDib f1 f2 f3 f4 f5 f6 f7 d) debería aplicar en el dibujo d
 -- la función f1 a las Basicas, f2 a Rot45, f3 a Rotar, f4 a Espejar, f5 a Apilar, f6 a Juntar, f7 a Encimar.
 test_foldDib :: Test
 test_foldDib =
+  TestCase $
+    assertEqual
+      "Deberia cambiar cada básica del dibujo por un circulo. Y cada funcion por otra."
+      -- Valor esperado
+      (Apilar 1 1 (Rotar (Rot45 (Basica "circulo"))) (Juntar 2.0 2.0 (Basica "circulo") (Encimar (Basica "circulo") (Basica "circulo"))))
+      -- Valor obtenido
+      (foldDib f1 f2 f3 f4 f5 f6 f7 (Juntar 1 1 (Rot45 (Espejar (Basica "rectangulo"))) (Apilar 2 2 (Basica "rectangulo") (Encimar (Basica "rectangulo") (Basica "rectangulo")))))
+  where
+    f1 b = Basica "circulo" -- Función para Basica
+    f2 = Rotar -- Función para Rot45
+    f3 = Espejar -- Función para Rotar
+    f4 = Rot45 -- Función para Espejar
+    f5 = Juntar -- Función para Apilar
+    f6 = Apilar -- Función para Juntar
+    f7 = Encimar -- Función para Encimar
+
+-- Prueba para la función foldDib.
+-- La función (foldDib f1 f2 f3 f4 f5 f6 f7 d) debería aplicar en el dibujo d
+-- la función f1 a las Basicas, f2 a Rot45, f3 a Rotar, f4 a Espejar, f5 a Apilar, f6 a Juntar, f7 a Encimar.
+test_foldDib_2 :: Test
+test_foldDib_2 =
   TestCase $
     assertEqual
       "Deberia cambiar cada básica del dibujo por un circulo."
@@ -225,7 +246,7 @@ test_foldDib =
     f7 = Encimar -- Función para Encimar
 
 -- Prueba para la función figuras.
--- DOC: La función (figuras d) debería devolver un array con cada básica del dibujo b.
+-- La función (figuras d) debería devolver un array con cada básica del dibujo b.
 test_figuras :: Test
 test_figuras =
   TestCase $
@@ -262,6 +283,7 @@ tests =
       TestLabel "test_mapDib" test_mapDib,
       TestLabel "test_change" test_change,
       TestLabel "test_foldDib" test_foldDib,
+      TestLabel "test_foldDib_2" test_foldDib_2,
       TestLabel "test_figuras" test_figuras
     ]
 

@@ -212,17 +212,17 @@ test_foldDib =
     assertEqual
       "Deberia cambiar cada básica del dibujo por un circulo. Y cada funcion por otra."
       -- Valor esperado
-      (Apilar 1 1 (Rotar (Rot45 (Basica "circulo"))) (Juntar 2.0 2.0 (Basica "circulo") (Encimar (Basica "circulo") (Basica "circulo"))))
+      (Apilar 1 1 (Rotar (Rot45 (Basica "circulo"))) (Juntar 2.0 2.0 (Basica "circulo") (Encimar (Rot45 (Basica "circulo")) (Rot45 (Basica "circulo")))))
       -- Valor obtenido
-      (foldDib f1 f2 f3 f4 f5 f6 f7 (Juntar 1 1 (Rot45 (Espejar (Basica "rectangulo"))) (Apilar 2 2 (Basica "rectangulo") (Encimar (Basica "rectangulo") (Basica "rectangulo")))))
+      (foldDib f1 f2 f3 f4 f5 f6 f7 (Juntar 1 1 (Rot45 (Espejar (Basica "rectangulo"))) (Apilar 2 2 (Basica "rectangulo") (Encimar (Espejar (Basica "rectangulo")) (Basica "rectangulo")))))
   where
-    f1 b = Basica "circulo" -- Función para Basica
+    f1 _ = Basica "circulo" -- Función para Basica
     f2 = rotar -- Función para Rot45
     f3 = espejar -- Función para Rotar
     f4 = rot45 -- Función para Espejar
     f5 = juntar -- Función para Apilar
     f6 = apilar -- Función para Juntar
-    f7 = encimar -- Función para Encimar
+    f7 d _ = Encimar d d -- Función para Encimar
 
 -- Prueba para la función foldDib.
 -- La función (foldDib f1 f2 f3 f4 f5 f6 f7 d) debería aplicar en el dibujo d

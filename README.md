@@ -1,6 +1,6 @@
 ---
 title: Laboratorio de Funcional
-author: Ramiro Lugo Viola | ...
+author: Ramiro Lugo Viola | Matias Viola Di Bedendetto | 
 ---
 La consigna del laboratorio está en https://tinyurl.com/funcional-2024-famaf
 

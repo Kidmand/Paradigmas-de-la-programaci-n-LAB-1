@@ -217,12 +217,12 @@ test_foldDib =
       (foldDib f1 f2 f3 f4 f5 f6 f7 (Juntar 1 1 (Rot45 (Espejar (Basica "rectangulo"))) (Apilar 2 2 (Basica "rectangulo") (Encimar (Basica "rectangulo") (Basica "rectangulo")))))
   where
     f1 b = Basica "circulo" -- Función para Basica
-    f2 = Rotar -- Función para Rot45
-    f3 = Espejar -- Función para Rotar
-    f4 = Rot45 -- Función para Espejar
-    f5 = Juntar -- Función para Apilar
-    f6 = Apilar -- Función para Juntar
-    f7 = Encimar -- Función para Encimar
+    f2 = rotar -- Función para Rot45
+    f3 = espejar -- Función para Rotar
+    f4 = rot45 -- Función para Espejar
+    f5 = juntar -- Función para Apilar
+    f6 = apilar -- Función para Juntar
+    f7 = encimar -- Función para Encimar
 
 -- Prueba para la función foldDib.
 -- La función (foldDib f1 f2 f3 f4 f5 f6 f7 d) debería aplicar en el dibujo d
@@ -238,12 +238,12 @@ test_foldDib_2 =
       (foldDib f1 f2 f3 f4 f5 f6 f7 (Juntar 1 1 (Rot45 (Espejar (Basica "rectangulo"))) (Apilar 2 2 (Basica "rectangulo") (Encimar (Basica "rectangulo") (Basica "rectangulo")))))
   where
     f1 b = Basica "circulo" -- Función para Basica
-    f2 = Rot45 -- Función para Rot45
-    f3 = Rotar -- Función para Rotar
-    f4 = Espejar -- Función para Espejar
-    f5 = Apilar -- Función para Apilar
-    f6 = Juntar -- Función para Juntar
-    f7 = Encimar -- Función para Encimar
+    f2 = Rot45 -- Tipo para Rot45
+    f3 = Rotar -- Tipo para Rotar
+    f4 = Espejar -- Tipo para Espejar
+    f5 = Apilar -- Tipo para Apilar
+    f6 = Juntar -- Tipo para Juntar
+    f7 = Encimar -- Tipo para Encimar
 
 -- Prueba para la función figuras.
 -- La función (figuras d) debería devolver un array con cada básica del dibujo b.

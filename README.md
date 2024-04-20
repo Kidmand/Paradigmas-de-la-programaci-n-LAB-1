@@ -231,7 +231,11 @@ Como ejemplo de esto podemos ver como en el módulo `Dibujos/Escher.hs` tenemos 
 
 ## 3.3. ¿Qué ventaja tiene utilizar una función de `fold` sobre hacer pattern-matching directo?
 
-Completar ...
+- **`Abstraccion:`** Separamos la logica de como se manejan los diferentes casos del tipo de datos de la implementación real de esos casos.
+- **`Modularidad:`**  Al querer aplicar una funcion a cada parte del dibujo, simplemente necesitamos utilizar fold, en lugar de repetir directamente el codigo existente.
+- **`Separacion de responsabilidades:`** De la recursion y el pattern-matching se encarga la funcion de fold, las demas solo necesitan encargarse de la implementacion de las funciones que se deben aplicar en cada caso.
+- **`Simplicidad:`** En los puntos anteriores hablamos de abstraccion, modularidad y separacion de responsabilidades, estas caracteristicas hacen que el codigo sea mas facil de leer, entender y por lo tanto modificar o extender.
+- **`Aprendizaje y buenas practicas:`** Utilizar funciones de alto orden, para combinar varias funciones pequeñas y crear funcionalidades más complejas, es en buena parte responsable de las ventajas dichas anteriormente y es una cualidad distintiva de los lenguajes declarativos.
 
 ## 3.4. ¿Cuál es la diferencia entre los predicados definidos en Pred.hs y los tests?
 

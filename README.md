@@ -232,7 +232,7 @@ Como ejemplo de esto podemos ver como en el módulo `Dibujos/Escher.hs` tenemos 
 ## 3.3. ¿Qué ventaja tiene utilizar una función de `fold` sobre hacer pattern-matching directo?
 
 - **`Abstraccion:`** Separamos la logica de como se manejan los diferentes casos del tipo de datos de la implementación real de esos casos.
-- **`Modularidad:`**  Al querer aplicar una funcion a cada parte del dibujo, simplemente necesitamos utilizar fold, en lugar de repetir directamente el codigo existente.
+- **`Modularidad:`** Al querer aplicar una funcion a cada parte del dibujo, simplemente necesitamos utilizar fold, en lugar de repetir directamente el codigo existente.
 - **`Separacion de responsabilidades:`** De la recursion y el pattern-matching se encarga la funcion de fold, las demas solo necesitan encargarse de la implementacion de las funciones que se deben aplicar en cada caso.
 - **`Simplicidad:`** En los puntos anteriores hablamos de abstraccion, modularidad y separacion de responsabilidades, estas caracteristicas hacen que el codigo sea mas facil de leer, entender y por lo tanto modificar o extender.
 - **`Aprendizaje y buenas practicas:`** Utilizar funciones de alto orden, para combinar varias funciones pequeñas y crear funcionalidades más complejas, es en buena parte responsable de las ventajas dichas anteriormente y es una cualidad distintiva de los lenguajes declarativos.
@@ -283,6 +283,63 @@ Esto es una función que está declarada en `TestDibujos.hs`. Acá podemos ver c
 
 # 4. Extras
 
-Completar si hacen algo.
+## 4.1 Mejoras en la **Grilla**:
+
+### Puede ser de `n x m` no solamente `7 x 7`:
+
+FIXME: REVISAR
+Para lograr esto hicimos que la función `grillaConf` reciba dos enteros `n` y `m` que son la cantidad de lineas horizontales y verticales respectivamente, y que se encargue de configurar la grilla de `n x m`. En nuestro caso en particular la grilla es de `7 x 7`.
+Esto se consigue generalizando las funciones encargadas de generar las lineas horizontales y verticales de la grilla:
+
+```haskell
+-- Generamos una línea de la grilla.
+drawLineGrilla :: Int -> Int -> Float-> [Dibujo BasicaTuplas]
+drawLineGrilla x 0 fontSize = [figTupla (Tupla (x, 0, fontSize))]
+drawLineGrilla x y fontSize = drawLineGrilla x (y - 1) fontSize ++ [figTupla (Tupla (x, y, fontSize))]
+
+-- Generamos la grilla x por y en un array de dibujos.
+drawGrilla :: Int -> Int -> Float -> [[Dibujo BasicaTuplas]]
+drawGrilla 0 y fontSize = [drawLineGrilla 0 y fontSize]
+drawGrilla x y fontSize = (drawGrilla (x-1) y fontSize) ++ [(drawLineGrilla x y fontSize)]
+```
+
+Ignorando el `fontSize` por el momento, podemos ver como `drawLineGrilla` genera una linea horizontal de la grilla, y `drawGrilla` genera la grilla completa de `n x m` lineas horizontales y verticales respectivamente, en un array de dibujos.
+
+### Se adapta a difrentes tamaños de ventana sin perder la proporción:
+
+FIXME: REVISAR
+Para lograr esto hicimos que la función `grillaConf` reciba un `float` que es el tamaño de la ventana, y que se encargue de configurar la grilla de acuerdo a ese tamaño de ventana sin perder la proporción de la grilla. Esto quiere decir que el tamaño de la tipografia y de las lineas de la grilla se calculan a partir de este valor.
+
+Primero calculamos el tamaño de la tipografia:
+
+```haskell
+-- Calculamos el tamaño de la fuente.
+calculateFontSize :: Int -> Int -> Float -> Float
+calculateFontSize x y windowSize = windowSize / (((fromIntegral (x+y))/2) * 565)
+```
+
+Podemos ver como el tamaño de la fuente depende de la cantidad de lineas horizontales y verticales de la grilla, y del tamaño de la ventana.
+
+Este valor lo vamos trasladando por todas las funciones hasta llegar a la funcion encargada efectivamente de utilizar `gloss` para dibujar la grilla. Para ello agregamos un campo mas a las tuplas logrando que este valor se mantenga en todo momento:
+
+```haskell
+--                        ( x ,  y , fontSize)
+data BasicaTuplas = Tupla (Int, Int,   Float ) deriving (Show, Eq)
+```
+
+Y al momento de usar `gloss` para dibujar la grilla, usamos el valor de `fontSize` para configurar el tamaño de la tipografia:
+
+```haskell
+-- Dibujamos la tupla.
+drawTextTupla :: BasicaTuplas -> Picture
+drawTextTupla (Tupla (x, y, fontSize)) = scale fontSize fontSize $ text $ "(" ++ show x ++ "," ++ show y ++ ")"
+
+-- Interpretamos la tupla para gloss con sus vectores.
+--      Obs: Al final del archivo se explica un detalle de esta funcion.
+interpBasicaTuplas :: Output BasicaTuplas
+interpBasicaTuplas tupla (d_x, d_y) (w_x, _) (_, h_y) = translate (d_x + w_x/4) (d_y + h_y/2) $ drawTextTupla tupla
+```
+
+Obs: Como no se puede definir excatemente el tamaño de la tipografia en `gloss`, lo que hacemos es escalar el texto a partir de este valor.
 
 ---

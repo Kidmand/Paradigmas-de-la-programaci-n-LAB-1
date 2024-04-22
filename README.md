@@ -283,12 +283,11 @@ Esto es una función que está declarada en `TestDibujos.hs`. Acá podemos ver c
 
 # 4. Extras
 
-## 4.1 Mejoras en la **Grilla**:
+## 4.1 Mejoras y correción de un error de los profes referido a la *Grilla*:
 
 ### Puede ser de `n x m` no solamente `7 x 7`:
 
-FIXME: REVISAR
-Para lograr esto hicimos que la función `grillaConf` reciba dos enteros `n` y `m` que son la cantidad de lineas horizontales y verticales respectivamente, y que se encargue de configurar la grilla de `n x m`. En nuestro caso en particular la grilla es de `7 x 7`.
+Para lograr esto hicimos que la función `grillaConf` reciba dos enteros `n` y `m` que son la cantidad de lineas horizontales y verticales respectivamente, encargadas de configurar la grilla de `n x m`. En nuestro caso, la grilla es de `7 x 7`.
 Esto se consigue generalizando las funciones encargadas de generar las lineas horizontales y verticales de la grilla:
 
 ```haskell
@@ -307,7 +306,6 @@ Ignorando el `fontSize` por el momento, podemos ver como `drawLineGrilla` genera
 
 ### Se adapta a difrentes tamaños de ventana sin perder la proporción:
 
-FIXME: REVISAR
 Para lograr esto hicimos que la función `grillaConf` reciba un `float` que es el tamaño de la ventana, y que se encargue de configurar la grilla de acuerdo a ese tamaño de ventana sin perder la proporción de la grilla. Esto quiere decir que el tamaño de la tipografia y de las lineas de la grilla se calculan a partir de este valor.
 
 Primero calculamos el tamaño de la tipografia:
@@ -324,7 +322,7 @@ Este valor lo vamos trasladando por todas las funciones hasta llegar a la funcio
 
 ```haskell
 --                        ( x ,  y , fontSize)
-data BasicaTuplas = Tupla (Int, Int,   Float ) deriving (Show, Eq)
+data BasicaTuplas = Tupla (Int, Int, Float ) deriving (Show, Eq)
 ```
 
 Y al momento de usar `gloss` para dibujar la grilla, usamos el valor de `fontSize` para configurar el tamaño de la tipografia:
@@ -340,6 +338,6 @@ interpBasicaTuplas :: Output BasicaTuplas
 interpBasicaTuplas tupla (d_x, d_y) (w_x, _) (_, h_y) = translate (d_x + w_x/4) (d_y + h_y/2) $ drawTextTupla tupla
 ```
 
-Obs: Como no se puede definir excatemente el tamaño de la tipografia en `gloss`, lo que hacemos es escalar el texto a partir de este valor.
+Obs: Como no se puede definir excatemente el tamaño de la tipografia en `gloss`, lo que hacemos es escalar el texto a partir de este valor, además en esta parte corregimos uno de los errores que detectamos en la centralización de la imgagen con respecto a la grilla. Es decir, en la imagen que pasaron los profes en la consignas, las tuplas `(1...7,1...7)` estaban desentralizada, y esto pasaba porque en la función `interpBasicaTuplas` dividia por dos cuando tendría que dividir por 4. En en final del archivo `Grilla.hs` despúes de las declaraciones de las funciones, se explica detalladamente la correción. 
 
 ---
